@@ -1,9 +1,12 @@
 package com.murebackend.murebackend.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,21 +23,24 @@ public class UserController {
 	UserRepository userRepository;
 
 	@GetMapping("/")
-	public ResponseEntity<Map<String, Object>> getAllUser() {
-		Map<String, Object> response = new HashMap<>();
-		response.put("message", "user created");
-		return new ResponseEntity<>(response, HttpStatus.OK);
+	public ResponseEntity<?> getAllUser() {
+		List<User> users = new ArrayList<>();
+		userRepository.findAll().forEach(users::add);
+		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<Map<String, Object>> createUser(@RequestBody User user) {
+	public ResponseEntity<?> createUser(@RequestBody User user) {
 		try {
 			Map<String, Object> response = new HashMap<>();
-			response.put("message", "user" + user.getName() + "created");
-			userRepository.save(user);
+			userRepository.save(new User(user.getName(), user.getEmail(), user.getPassword()));
+
+			response.put("message", user.getName() + "registered");
 			return new ResponseEntity<>(response, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (DuplicateKeyException e) {
+			Map<String, Object> errorResponse = new HashMap<>();
+			errorResponse.put("error", "User already registered");
+			return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
 		}
 	}
 }

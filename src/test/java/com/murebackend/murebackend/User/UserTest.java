@@ -1,23 +1,53 @@
 package com.murebackend.murebackend.User;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserTest {
 
 	@Autowired
-	MockMvc mockMvc;	
+	MockMvc mockMvc;
+
+	@Autowired
+	ObjectMapper objectMapper;
 
 	@Test
 	void registerTest() throws Exception {
-		mockMvc.perform(get("/api/users/"))
-			.andExpect(status().is2xxSuccessful());
+		Map<String, Object> body = new HashMap<>();
+		body.put("email", "adminxxx@admin.com");
+		body.put("name", "admin");
+		body.put("password", "admin");
+		mockMvc.perform(post("/api/users/register")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(body))
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+	}
+
+void registerSameEmailFailed() throws Exception {
+		Map<String, Object> body = new HashMap<>();
+		body.put("email", "adminxxx@admin.com");
+		body.put("name", "admin");
+		body.put("password", "admin");
+
+		mockMvc.perform(post("/api/users/register")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(body))
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isConflict());
 	}
 }
