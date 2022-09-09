@@ -1,8 +1,6 @@
 package com.murebackend.murebackend.User;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +22,7 @@ public class UserController {
 
 	@GetMapping("/")
 	public ResponseEntity<?> getAllUser() {
-		List<User> users = new ArrayList<>();
-		userRepository.findAll().forEach(users::add);
-		return new ResponseEntity<>(users, HttpStatus.OK);
+		return new ResponseEntity<>("users", HttpStatus.OK);
 	}
 
 	@PostMapping("/register")

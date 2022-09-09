@@ -3,7 +3,7 @@ package com.murebackend.murebackend.Artist;
 import java.sql.Date;
 
 public class Artist {
-	private String id;
+	private Long id;
 	private String name;	
 	private String description;	
 	private String imagePath;	
@@ -11,10 +11,10 @@ public class Artist {
 	private Date createdAt;
 	private Date updatedAt;
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {

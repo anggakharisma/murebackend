@@ -1,6 +1,5 @@
 package com.murebackend.murebackend.User;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -42,10 +41,4 @@ public class JdbcUserRepository implements UserRepository {
 			return null;
 		}
 	}
-
-	@Override
-	public List<User> findAll() {
-		return jdbcTemplate.query("SELECT * FROM users", BeanPropertyRowMapper.newInstance(User.class));
-	}
-
 }
