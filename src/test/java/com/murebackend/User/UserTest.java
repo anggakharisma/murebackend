@@ -1,4 +1,4 @@
-package com.murebackend.murebackend.User;
+package com.murebackend.User;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
