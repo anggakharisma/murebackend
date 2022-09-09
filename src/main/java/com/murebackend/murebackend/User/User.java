@@ -2,10 +2,26 @@ package com.murebackend.murebackend.User;
 
 import java.sql.Date;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+import lombok.Data;
+
+@Data
 public class User {
+
 	private Long id;
+
+	@NotBlank(message = "name is required")
 	private String name;
+
+	@Email(message="Please provide a valid email address")
+	@Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
+	@NotBlank(message = "email is required")
 	private String email;
+
+	@NotBlank(message = "password is required")
 	private String password;
 	private Date createdAt;
 	private Date updatedAt;
