@@ -2,8 +2,6 @@ package com.murebackend.murebackend.Auth;
 
 import com.murebackend.murebackend.User.User;
 import com.murebackend.murebackend.User.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -20,7 +18,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@Slf4j
 public class AuthController {
 
 	@Autowired
