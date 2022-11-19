@@ -25,12 +25,6 @@ public class JdbcUserRepository implements UserRepository {
 	}
 
 	@Override
-	public User findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public User findByEmail(String email) {
 		return jdbcTemplate.queryForObject("SELECT * FROM users WHERE email=?",
 					BeanPropertyRowMapper.newInstance(User.class), email);
