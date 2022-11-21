@@ -31,7 +31,7 @@ public class UserController {
 	@PostMapping("/register")
 	public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
 		try {
-			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+      BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 			Map<String, Object> response = new HashMap<>();
 			userRepository.save(new User(user.getName(), user.getEmail(), bCryptPasswordEncoder.encode(user.getPassword())));
 

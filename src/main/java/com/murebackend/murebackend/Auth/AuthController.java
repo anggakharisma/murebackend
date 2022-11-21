@@ -1,5 +1,6 @@
 package com.murebackend.murebackend.Auth;
 
+import com.murebackend.murebackend.Config.JwtTokenUtil;
 import com.murebackend.murebackend.User.User;
 import com.murebackend.murebackend.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,19 @@ public class AuthController {
 			BCryptPasswordEncoder bCryptPasswordEncoder =
 					new BCryptPasswordEncoder();
 			User user = userRepository.findByEmail(authRequest.getEmail());
+            JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+
 			if(!bCryptPasswordEncoder.matches(authRequest.getPassword(),
 					user.getPassword())) {
 				Map<String, Object> responseErr = new HashMap<>();
 				responseErr.put("message", "Wrong password ??");
 				return new ResponseEntity<>(responseErr, HttpStatus.BAD_REQUEST);
 			}
+
 			Map<String, Object> response = new HashMap<>();
 			response.put("message", "Login success");
+      response.put("token", jwtTokenUtil.generateAccessToken(user));
+
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch(EmptyResultDataAccessException e) {
 			Map<String, Object> response = new HashMap<>();
