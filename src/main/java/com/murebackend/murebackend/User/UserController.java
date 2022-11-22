@@ -10,6 +10,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,10 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
 	@GetMapping("/")
 	public ResponseEntity<?> getAllUser() {
 		return new ResponseEntity<>("users", HttpStatus.OK);
@@ -31,9 +36,8 @@ public class UserController {
 	@PostMapping("/register")
 	public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
 		try {
-      BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 			Map<String, Object> response = new HashMap<>();
-			userRepository.save(new User(user.getName(), user.getEmail(), bCryptPasswordEncoder.encode(user.getPassword())));
+			userRepository.save(new User(user.getName(), user.getEmail(), passwordEncoder.encode(user.getPassword())));
 
 			response.put("message", user.getName() + " registered");
 			return new ResponseEntity<>(response, HttpStatus.CREATED);

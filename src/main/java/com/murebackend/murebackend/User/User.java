@@ -26,6 +26,8 @@ public class User {
 	private Date createdAt;
 	private Date updatedAt;
 
+	private String imagePath;
+
 	public User() {
 	}
 
@@ -86,5 +88,13 @@ public class User {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
-	}	
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
 }

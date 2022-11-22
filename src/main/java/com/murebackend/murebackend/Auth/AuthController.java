@@ -3,11 +3,13 @@ package com.murebackend.murebackend.Auth;
 import com.murebackend.murebackend.Config.JwtTokenUtil;
 import com.murebackend.murebackend.User.User;
 import com.murebackend.murebackend.User.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,20 +21,25 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class AuthController {
 
 	@Autowired
 	UserRepository userRepository;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	JwtTokenUtil jwtTokenUtil;
+
 	@PostMapping("/auth")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthRequest authRequest) {
 		try {
-			BCryptPasswordEncoder bCryptPasswordEncoder =
-					new BCryptPasswordEncoder();
 			User user = userRepository.findByEmail(authRequest.getEmail());
-            JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+			log.info(user.getEmail());
 
-			if(!bCryptPasswordEncoder.matches(authRequest.getPassword(),
+			if(!passwordEncoder.matches(authRequest.getPassword(),
 					user.getPassword())) {
 				Map<String, Object> responseErr = new HashMap<>();
 				responseErr.put("message", "Wrong password ??");
@@ -41,7 +48,7 @@ public class AuthController {
 
 			Map<String, Object> response = new HashMap<>();
 			response.put("message", "Login success");
-      response.put("token", jwtTokenUtil.generateAccessToken(user));
+			response.put("token", jwtTokenUtil.generateAccessToken(user));
 
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch(EmptyResultDataAccessException e) {
