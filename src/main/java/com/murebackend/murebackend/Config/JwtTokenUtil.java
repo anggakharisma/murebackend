@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtTokenUtil implements Serializable {
   private static final long serialVersionUID = -2550185165626007488L;
 
-  public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+  public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60 * 1000;
 
   private final SecretKey key;
 
@@ -34,9 +34,9 @@ public class JwtTokenUtil implements Serializable {
   public String generateAccessToken(User user) {
 
     return Jwts.builder()
-        .setSubject("whatever")
+        .setSubject(user.getEmail())
         .setIssuer("murebackend")
-        .setIssuedAt(new Date())
+        .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
         .signWith(key)
         .compact();
