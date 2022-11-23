@@ -9,6 +9,7 @@ CREATE TABLE users (
 	name VARCHAR NOT NULL,
 	email VARCHAR UNIQUE NOT NULL,
 	password VARCHAR NOT NULL,
+  image_path VARCHAR,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
 );

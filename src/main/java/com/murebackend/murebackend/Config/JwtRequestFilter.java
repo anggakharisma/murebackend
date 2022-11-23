@@ -1,6 +1,7 @@
 package com.murebackend.murebackend.Config;
 
 import com.murebackend.murebackend.User.JwtUserDetailsService;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -43,7 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     }
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | ExpiredJwtException e) {
                 logger.error(e);
             }
         }
