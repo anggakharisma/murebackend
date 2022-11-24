@@ -1,15 +1,40 @@
 package com.murebackend.murebackend.Artist;
 
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 import java.sql.Date;
 
+@Data
 public class Artist {
 	private Long id;
-	private String name;	
-	private String description;	
-	private String imagePath;	
+	@NotBlank(message = "name is required")
+	private String name;
+
+	@NotBlank(message = "description is required")
+	private String description;
+
+	private String alias;
+
+	private String imagePath;
 
 	private Date createdAt;
 	private Date updatedAt;
+
+	public Artist() {
+	}
+
+	public Artist(Long id, String name, String description) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+	}
+
+	public Artist(String name, String description, String imagePath) {
+		this.name = name;
+		this.description = description;
+		this.imagePath = imagePath;
+	}
 
 	public Long getId() {
 		return id;

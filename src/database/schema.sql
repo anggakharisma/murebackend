@@ -24,16 +24,18 @@ CREATE TABLE role_user (
 	role_id NUMERIC
 );
 
---CREATE TABLE artists (
---	id SERIAL PRIMARY KEY,
---	name VARCHAR UNIQUE NOT NULL,
---	image_path VARCHAR,
---	description TEXT
---);
+CREATE TABLE artists (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR NOT NULL,
+	alias VARCHAR,
+	image_path VARCHAR,
+	description TEXT
+);
 
---CREATE TABLE songs {
---	id SERIAL PRIMARY KEY,
---}
+CREATE TABLE songs {
+	id SERIAL PRIMARY KEY,
+	name VARCHAR NOT NULL
+}
 
 --CREATE TABLE albums {
 --	id SERIAL PRIMARY KEY,

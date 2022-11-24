@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/users/")
+@RequestMapping("/api/users")
 public class UserController {
 
 	@Autowired
@@ -28,10 +28,6 @@ public class UserController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	@GetMapping("/")
-	public ResponseEntity<?> getAllUser() {
-		return new ResponseEntity<>("users", HttpStatus.OK);
-	}
 
 	@PostMapping("/register")
 	public ResponseEntity<?> createUser(@Valid @RequestBody User user) {

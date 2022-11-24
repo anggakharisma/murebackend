@@ -1,5 +1,6 @@
 package com.murebackend.murebackend.Artist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +11,17 @@ import org.springframework.stereotype.Repository;
 public class JdbcArtistRepository implements ArtistRepository {
 
 	@Autowired
-	JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate;
 
 	@Override
 	public int save(Artist artist) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "INSERT INTO artists(name, description, created_at) VALUES(?, ?, ?, NOW())";
+		return jdbcTemplate.update(sql, artist.getName(), artist.getDescription());
 	}
 
 	@Override
 	public List<Artist> getAllArtist() {
-		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.queryForList("SELECT * FROM artists LIMIT 100", Artist.class);
 	}
 
 	@Override

@@ -38,8 +38,14 @@ public class WebSecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.cors().and().csrf().disable()
-				.authorizeRequests().antMatchers("/api/auth")
-				.permitAll().antMatchers("/api/users/register").permitAll()
+				.authorizeRequests()
+				.antMatchers("/api/auth").permitAll()
+				.antMatchers("/api/users/register").permitAll()
+				.antMatchers("/api/users").permitAll()
+				.antMatchers("/api/users/").permitAll()
+				.antMatchers("/api/artists/").permitAll()
+
+
 				.anyRequest().authenticated()
 				.and().exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
 					Map<String, Object> responseMap = new HashMap<>();
