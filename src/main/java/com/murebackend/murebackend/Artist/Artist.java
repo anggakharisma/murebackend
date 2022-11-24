@@ -30,10 +30,9 @@ public class Artist {
 		this.description = description;
 	}
 
-	public Artist(String name, String description, String imagePath) {
+	public Artist(String name, String description) {
 		this.name = name;
 		this.description = description;
-		this.imagePath = imagePath;
 	}
 
 	public Long getId() {

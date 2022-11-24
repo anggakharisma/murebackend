@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,13 +16,13 @@ public class JdbcArtistRepository implements ArtistRepository {
 
 	@Override
 	public int save(Artist artist) {
-		String sql = "INSERT INTO artists(name, description, created_at) VALUES(?, ?, ?, NOW())";
+		String sql = "INSERT INTO artists(name, description, created_at) VALUES(?, ?, NOW())";
 		return jdbcTemplate.update(sql, artist.getName(), artist.getDescription());
 	}
 
 	@Override
 	public List<Artist> getAllArtist() {
-		return jdbcTemplate.queryForList("SELECT * FROM artists LIMIT 100", Artist.class);
+		return jdbcTemplate.query("SELECT * FROM artists", BeanPropertyRowMapper.newInstance(Artist.class));
 	}
 
 	@Override

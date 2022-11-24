@@ -1,12 +1,14 @@
 package com.murebackend.murebackend.User;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Slf4j
 public class JdbcUserRepository implements UserRepository {
 
 	@Autowired
@@ -22,6 +24,11 @@ public class JdbcUserRepository implements UserRepository {
 	public int update(User user) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int updateImage(User user, String image) {
+		return jdbcTemplate.update("UPDATE users set image_path = ? WHERE email = ? ", image, user.getEmail());
 	}
 
 	@Override

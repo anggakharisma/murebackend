@@ -1,4 +1,4 @@
-package com.murebackend.murebackend.Handler;
+package com.murebackend.murebackend.Exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

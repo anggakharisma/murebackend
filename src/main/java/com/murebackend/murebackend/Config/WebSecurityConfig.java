@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -39,11 +40,10 @@ public class WebSecurityConfig {
 		http
 				.cors().and().csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/api/auth").permitAll()
-				.antMatchers("/api/users/register").permitAll()
-				.antMatchers("/api/users").permitAll()
-				.antMatchers("/api/users/").permitAll()
-				.antMatchers("/api/artists/").permitAll()
+				.antMatchers("/api/auth/").permitAll()
+				.antMatchers("/api/users/register/").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/artists/").permitAll()
+				.antMatchers(HttpMethod.GET, "/images/*").permitAll()
 
 
 				.anyRequest().authenticated()

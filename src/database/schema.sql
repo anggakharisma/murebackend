@@ -9,7 +9,7 @@ CREATE TABLE users (
 	name VARCHAR NOT NULL,
 	email VARCHAR UNIQUE NOT NULL,
 	password VARCHAR NOT NULL,
-  image_path VARCHAR,
+    image_path VARCHAR,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
 );
@@ -29,12 +29,16 @@ CREATE TABLE artists (
 	name VARCHAR NOT NULL,
 	alias VARCHAR,
 	image_path VARCHAR,
-	description TEXT
+	description TEXT,
+	created_at TIMESTAMP,
+    updated_at TIMESTAMP
 );
 
 CREATE TABLE songs {
 	id SERIAL PRIMARY KEY,
-	name VARCHAR NOT NULL
+	name VARCHAR NOT NULL,
+	created_at TIMESTAMP,
+    updated_at TIMESTAMP
 }
 
 --CREATE TABLE albums {
