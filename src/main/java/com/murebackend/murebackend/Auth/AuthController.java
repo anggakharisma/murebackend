@@ -2,8 +2,10 @@ package com.murebackend.murebackend.Auth;
 
 import com.murebackend.murebackend.Config.JwtTokenUtil;
 import com.murebackend.murebackend.User.User;
+import com.murebackend.murebackend.User.UserDTO;
 import com.murebackend.murebackend.User.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -33,11 +35,14 @@ public class AuthController {
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
 
+	@Autowired
+	private ModelMapper modelMapper;
+
 	@PostMapping("/auth")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthRequest authRequest) {
 		try {
 			User user = userRepository.findByEmail(authRequest.getEmail());
-			log.info(user.getEmail());
+			UserDTO userDetail = modelMapper.map(user, UserDTO.class);
 
 			if(!passwordEncoder.matches(authRequest.getPassword(),
 					user.getPassword())) {
@@ -48,6 +53,7 @@ public class AuthController {
 
 			Map<String, Object> response = new HashMap<>();
 			response.put("message", "Login success");
+			response.put("userInfo", userDetail);
 			response.put("token", jwtTokenUtil.generateAccessToken(user));
 
 			return new ResponseEntity<>(response, HttpStatus.OK);
@@ -57,8 +63,8 @@ public class AuthController {
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		} catch(Exception e) {
 			Map<String, Object> response = new HashMap<>();
-			response.put("message", e.getMessage());
-			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+			response.put("message", "Whoops something went wrong");
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
