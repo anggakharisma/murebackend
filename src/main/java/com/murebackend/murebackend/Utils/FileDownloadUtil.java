@@ -22,6 +22,7 @@ public class FileDownloadUtil {
             }
         });
         if (foundFile != null) {
+            // convert file to base 64 idk now tho
 //            File fi = new File(foundFile.toUri());
 //            byte[] fileContent = Files.readAllBytes(fi.toPath());
 
