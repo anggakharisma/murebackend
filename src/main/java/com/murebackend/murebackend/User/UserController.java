@@ -78,9 +78,8 @@ public class UserController {
 			throws IOException {
 
 		String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-		long size = multipartFile.getSize();
-
 		String fileCode = FileUploadUtil.saveFile(fileName, multipartFile);
+
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findByEmail(userDetails.getUsername());
 
@@ -89,7 +88,6 @@ public class UserController {
 		Map<String, Object> response = new HashMap<>();
 		response.put("full_name", fileCode + "-" + fileName);
 		response.put("code", fileCode);
-		response.put("size", size);
 		response.put("download_uri", "/files/" + fileCode);
 
 		return new ResponseEntity<>(response, HttpStatus.OK);

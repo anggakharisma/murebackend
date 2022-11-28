@@ -43,8 +43,6 @@ public class WebSecurityConfig {
 				.antMatchers("/api/auth/").permitAll()
 				.antMatchers("/api/users/register/").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/artists/").permitAll()
-				.antMatchers(HttpMethod.GET, "/images/*").permitAll()
-
 
 				.anyRequest().authenticated()
 				.and().exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
