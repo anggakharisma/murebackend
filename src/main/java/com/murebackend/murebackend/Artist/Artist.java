@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 @Data
 public class Artist {
@@ -18,7 +20,7 @@ public class Artist {
 
 	private String imagePath;
 
-	private Date createdAt;
+	private Timestamp createdAt;
 	private Date updatedAt;
 
 	public Artist() {
@@ -59,10 +61,10 @@ public class Artist {
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
-	public Date getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
 	public Date getUpdatedAt() {

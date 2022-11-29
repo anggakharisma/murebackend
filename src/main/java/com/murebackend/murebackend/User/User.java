@@ -1,6 +1,7 @@
 package com.murebackend.murebackend.User;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -23,8 +24,8 @@ public class User {
 
 	@NotBlank(message = "password is required")
 	private String password;
-	private Date createdAt;
-	private Date updatedAt;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
 
 	private String imagePath;
 
@@ -74,19 +75,19 @@ public class User {
 		return "User [email=" + email + ", id=" + id + ", name=" + name + "]";
 	}
 
-	public Date getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
