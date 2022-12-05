@@ -34,12 +34,12 @@ CREATE TABLE artists (
     updated_at TIMESTAMP
 );
 
-CREATE TABLE songs {
+CREATE TABLE songs (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR NOT NULL,
 	created_at TIMESTAMP,
     updated_at TIMESTAMP
-}
+)
 
 --CREATE TABLE albums {
 --	id SERIAL PRIMARY KEY,

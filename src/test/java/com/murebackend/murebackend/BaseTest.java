@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest(properties = "spring.profiles.active:test")
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 public class BaseTest {
 
     @Autowired
