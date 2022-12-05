@@ -1,19 +1,23 @@
 package com.murebackend.murebackend.User;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import com.murebackend.murebackend.Role.Role;
 import lombok.*;
 
 @Data
 @Setter
 @RequiredArgsConstructor
+@NoArgsConstructor
 public class User {
+
 	private Long id;
+
 
 	@NonNull
 	@NotBlank(message = "name is required")
@@ -25,6 +29,7 @@ public class User {
 	@NotBlank(message = "email is required")
 	private String email;
 
+
 	@NonNull
 	@NotBlank(message = "password is required")
 	private String password;
@@ -33,8 +38,5 @@ public class User {
 
 	private String imagePath;
 
-	@Override
-	public String toString() {
-		return "User [email=" + email + ", id=" + id + ", name=" + name + "]";
-	}
+	List<Role> roles;
 }

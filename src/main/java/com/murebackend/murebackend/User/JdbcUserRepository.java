@@ -1,6 +1,7 @@
 package com.murebackend.murebackend.User;
 
 
+import com.murebackend.murebackend.Role.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -15,9 +16,9 @@ public class JdbcUserRepository implements UserRepository {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public int save(User user) {
-			return jdbcTemplate.update("INSERT INTO users (name, email, password, created_at) VALUES(?,?,?, NOW())",
-					user.getName(), user.getEmail(), user.getPassword());
+	public void save(User user) {
+		jdbcTemplate.update("INSERT INTO users (name, email, password, created_at) VALUES (?,?,?, NOW())",
+				user.getName(), user.getEmail(), user.getPassword());
 	}
 
 	@Override
@@ -27,13 +28,19 @@ public class JdbcUserRepository implements UserRepository {
 	}
 
 	@Override
-	public int updateImage(User user, String image) {
-		return jdbcTemplate.update("UPDATE users set image_path = ? WHERE email = ? ", image, user.getEmail());
+	public void updateImage(User user, String image) {
+		jdbcTemplate.update("UPDATE users set image_path = ? WHERE email = ? ", image, user.getEmail());
 	}
 
 	@Override
 	public User findByEmail(String email) {
 		return jdbcTemplate.queryForObject("SELECT * FROM users WHERE email=?",
 					BeanPropertyRowMapper.newInstance(User.class), email);
+	}
+
+	@Override
+	public int addRole(Role role, User user) {
+		return jdbcTemplate.update("INSERT INTO role_user(user_id, role_id) ",
+				user.getId(), role.getId());
 	}
 }

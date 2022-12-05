@@ -1,9 +1,12 @@
 package com.murebackend.murebackend.User;
 
 
+import com.murebackend.murebackend.Role.Role;
+
 public interface UserRepository {
-	int save(User user);
+	void save(User user);
 	int update(User user);
-	int updateImage(User user, String image);
+	void updateImage(User user, String image);
 	User findByEmail(String email);
+	int addRole(Role role, User user);
 }

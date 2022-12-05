@@ -40,18 +40,7 @@ public class UserController {
 	@GetMapping("/image/{fileCode}")
 	public ResponseEntity<?> downloadFile(@PathVariable("fileCode") String fileCode) {
 		FileDownloadUtil downloadUtil = new FileDownloadUtil();
-//		String fileBase64;
-
 		UrlResource resource = null;
-//		try {
-////			fileBase64 = downloadUtil.getFileAsResource(fileCode);
-//			Map<String, Object> response = new HashMap<>();
-//			return new ResponseEntity<>(fileBase64, HttpStatus.OK);
-//		} catch (IOException e) {
-//			return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-////			return ResponseEntity.internalServerError().build();
-////			throw new RuntimeException(e);
-//		}
 
 		try {
 			resource = downloadUtil.getFileAsResource(fileCode);
@@ -74,7 +63,7 @@ public class UserController {
 
 	@PostMapping("/image")
 	public ResponseEntity<?> uploadFile(
-			@RequestParam("file") MultipartFile multipartFile, Principal principal)
+			@RequestParam("file") MultipartFile multipartFile)
 			throws IOException {
 
 		String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
