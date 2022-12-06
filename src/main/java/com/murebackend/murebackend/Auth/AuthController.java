@@ -1,6 +1,7 @@
 package com.murebackend.murebackend.Auth;
 
 import com.murebackend.murebackend.Config.JwtTokenUtil;
+import com.murebackend.murebackend.Role.Role;
 import com.murebackend.murebackend.User.User;
 import com.murebackend.murebackend.User.UserDTO;
 import com.murebackend.murebackend.User.UserRepository;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -42,6 +44,8 @@ public class AuthController {
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthRequest authRequest) {
 		try {
 			User user = userRepository.findByEmail(authRequest.getEmail());
+			List<Role> roles = userRepository.getUserRoles(user);
+			user.setRoles(roles);
 			UserDTO userDetail = modelMapper.map(user, UserDTO.class);
 
 			if(!passwordEncoder.matches(authRequest.getPassword(),
@@ -64,7 +68,7 @@ public class AuthController {
 		} catch(Exception e) {
 			Map<String, Object> response = new HashMap<>();
 			response.put("message", "Whoops something went wrong");
-			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

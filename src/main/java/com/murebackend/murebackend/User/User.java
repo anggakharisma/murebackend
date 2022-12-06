@@ -9,6 +9,7 @@ import javax.validation.constraints.Pattern;
 
 import com.murebackend.murebackend.Role.Role;
 import lombok.*;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 
 @Data
 @Setter
@@ -17,7 +18,6 @@ import lombok.*;
 public class User {
 
 	private Long id;
-
 
 	@NonNull
 	@NotBlank(message = "name is required")

@@ -6,7 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 @Slf4j
@@ -38,9 +42,18 @@ public class JdbcUserRepository implements UserRepository {
 					BeanPropertyRowMapper.newInstance(User.class), email);
 	}
 
+
 	@Override
 	public int addRole(Role role, User user) {
 		return jdbcTemplate.update("INSERT INTO role_user(user_id, role_id) ",
 				user.getId(), role.getId());
+	}
+
+	@Override
+	public List<Role> getUserRoles(User user) {
+		return jdbcTemplate.query("SELECT roles.id, roles.name FROM role_user LEFT JOIN roles ON role_id = roles.id " +
+						"WHERE user_id = ?",
+				new Object[]{user.getId()},
+				BeanPropertyRowMapper.newInstance(Role.class));
 	}
 }
