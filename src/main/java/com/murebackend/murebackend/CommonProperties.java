@@ -1,8 +1,6 @@
 package com.murebackend.murebackend;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
@@ -10,7 +8,7 @@ import java.sql.Timestamp;
 
 @Data
 @Setter
-public class Model {
+public class CommonProperties {
     private Long id;
     private Timestamp createdAt;
     private Timestamp updatedAt;

@@ -1,22 +1,20 @@
 package com.murebackend.murebackend.User;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import com.murebackend.murebackend.Model;
+import com.murebackend.murebackend.CommonProperties;
 import com.murebackend.murebackend.Role.Role;
 import lombok.*;
-import org.springframework.data.relational.core.mapping.MappedCollection;
 
 @Data
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class User extends Model {
+public class User extends CommonProperties {
 
 	@NonNull
 	@NotBlank(message = "name is required")

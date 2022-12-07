@@ -1,6 +1,6 @@
 package com.murebackend.murebackend.Artist;
 
-import com.murebackend.murebackend.Model;
+import com.murebackend.murebackend.CommonProperties;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class Artist extends Model {
+public class Artist extends CommonProperties {
 	@NonNull
 	@NotBlank(message = "name is required")
 	private String name;

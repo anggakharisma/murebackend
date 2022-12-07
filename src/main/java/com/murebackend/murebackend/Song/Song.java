@@ -1,6 +1,6 @@
 package com.murebackend.murebackend.Song;
 
-import com.murebackend.murebackend.Model;
+import com.murebackend.murebackend.CommonProperties;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class Song extends Model {
+public class Song extends CommonProperties {
     @NonNull
     @NotBlank(message = "title is required")
     private String title;
