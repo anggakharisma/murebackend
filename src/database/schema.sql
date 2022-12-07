@@ -37,10 +37,11 @@ CREATE TABLE artists (
 
 CREATE TABLE songs (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR NOT NULL,
+	title VARCHAR NOT NULL,
+	year NUMERIC NOT NULL,
 	created_at TIMESTAMP,
     updated_at TIMESTAMP
-)
+);
 
 --CREATE TABLE albums {
 --	id SERIAL PRIMARY KEY,

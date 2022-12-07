@@ -1,19 +1,23 @@
 package com.murebackend.murebackend.Song;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
+@Slf4j
 public class JdbcSongRepository implements SongRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public int save(Song song) {
-		return jdbcTemplate.update("INSERT INTO artists (name, year) VALUES (?,?)",
-                song.getName(), song.getYear());
+		return jdbcTemplate.update("INSERT INTO songs (title, year, created_at) VALUES (?,?, NOW())",
+                song.getTitle(), song.getYear());
     }
 
     @Override

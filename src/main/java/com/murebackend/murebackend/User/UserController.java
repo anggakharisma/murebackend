@@ -40,7 +40,6 @@ public class UserController {
 
 	@GetMapping("/image/{fileCode}")
 	public ResponseEntity<?> downloadFile(@PathVariable("fileCode") String fileCode) {
-		Song song = new Song("asd", 1924);
 		FileDownloadUtil downloadUtil = new FileDownloadUtil();
 		UrlResource resource = null;
 

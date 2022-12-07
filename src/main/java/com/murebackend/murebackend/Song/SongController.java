@@ -24,7 +24,7 @@ public class SongController {
             Map<String, Object> response = new HashMap<>();
             songRepository.save(song);
 
-            response.put("message", song.getName() + " added");
+            response.put("message", song.getTitle() + " added");
 
             return new ResponseEntity<>(response, HttpStatus.CREATED);
 
