@@ -22,12 +22,6 @@ public class FileDownloadUtil {
             }
         });
         if (foundFile != null) {
-            // convert file to base 64 idk now tho
-//            File fi = new File(foundFile.toUri());
-//            byte[] fileContent = Files.readAllBytes(fi.toPath());
-//            return new String(Base64.getEncoder().encodeToString(fileContent).getBytes(), StandardCharsets.UTF_8);
-//            return Base64.getEncoder().encodeToString(fileContent);
-
             return new UrlResource(foundFile.toUri());
         }
 

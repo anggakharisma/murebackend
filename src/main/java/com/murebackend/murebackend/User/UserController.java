@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 
+import com.murebackend.murebackend.Song.Song;
 import com.murebackend.murebackend.Utils.FileDownloadUtil;
 import com.murebackend.murebackend.Utils.FileUploadUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,7 @@ public class UserController {
 
 	@GetMapping("/image/{fileCode}")
 	public ResponseEntity<?> downloadFile(@PathVariable("fileCode") String fileCode) {
+		Song song = new Song("asd", 1924);
 		FileDownloadUtil downloadUtil = new FileDownloadUtil();
 		UrlResource resource = null;
 

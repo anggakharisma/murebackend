@@ -1,5 +1,6 @@
 package com.murebackend.murebackend.User;
 
+import com.murebackend.murebackend.Role.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +22,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         com.murebackend.murebackend.User.User user = userRepository.findByEmail(email);
+        List<Role> roles = userRepository.getUserRoles(user);
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority("USER_ROLE"));
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorityList);
