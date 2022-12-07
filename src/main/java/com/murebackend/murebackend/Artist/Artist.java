@@ -1,76 +1,22 @@
 package com.murebackend.murebackend.Artist;
 
-import lombok.Data;
+import com.murebackend.murebackend.Model;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 
 @Data
-public class Artist {
-	private Long id;
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+public class Artist extends Model {
+	@NonNull
 	@NotBlank(message = "name is required")
 	private String name;
 
+	@NonNull
 	@NotBlank(message = "description is required")
 	private String description;
-
 	private String alias;
-
 	private String imagePath;
-
-	private Timestamp createdAt;
-	private Date updatedAt;
-
-	public Artist() {
-	}
-
-	public Artist(Long id, String name, String description) {
-		this.id = id;
-		this.name = name;
-		this.description = description;
-	}
-
-	public Artist(String name, String description) {
-		this.name = name;
-		this.description = description;
-	}
-
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getImagePath() {
-		return imagePath;
-	}
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
 }

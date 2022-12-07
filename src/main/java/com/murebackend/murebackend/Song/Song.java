@@ -1,17 +1,17 @@
 package com.murebackend.murebackend.Song;
 
+import com.murebackend.murebackend.Model;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 
 @Data
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class Song {
-    private Long id;
-
+public class Song extends Model {
     @NonNull
     @NotBlank(message = "title is required")
     private String title;
@@ -21,4 +21,7 @@ public class Song {
     private Integer year;
 
     private String imagePath;
+
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 }

@@ -22,7 +22,7 @@ public class JdbcSongRepository implements SongRepository {
 
     @Override
     public Song getSong(Long id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?",
+        return jdbcTemplate.queryForObject("SELECT * FROM songs WHERE id = ?",
 					BeanPropertyRowMapper.newInstance(Song.class), id);
     }
 

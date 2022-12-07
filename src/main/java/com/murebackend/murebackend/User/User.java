@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import com.murebackend.murebackend.Model;
 import com.murebackend.murebackend.Role.Role;
 import lombok.*;
 import org.springframework.data.relational.core.mapping.MappedCollection;
@@ -15,9 +16,7 @@ import org.springframework.data.relational.core.mapping.MappedCollection;
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class User {
-
-	private Long id;
+public class User extends Model {
 
 	@NonNull
 	@NotBlank(message = "name is required")
@@ -33,8 +32,6 @@ public class User {
 	@NonNull
 	@NotBlank(message = "password is required")
 	private String password;
-	private Timestamp createdAt;
-	private Timestamp updatedAt;
 
 	private String imagePath;
 
