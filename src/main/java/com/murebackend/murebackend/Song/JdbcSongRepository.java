@@ -28,8 +28,9 @@ public class JdbcSongRepository implements SongRepository {
 
     @Override
     public List<Song> searchSong(String searchQuery) {
-        return jdbcTemplate.query("SELECT * FROM songs WHERE name ILIKE ?",
-				new Object[]{searchQuery},
-				BeanPropertyRowMapper.newInstance(Song.class));
+        return (List<Song>) jdbcTemplate.queryForObject("SELECT * FROM songs WHERE name ILIKE ?",
+				BeanPropertyRowMapper.newInstance(Song.class),
+				new Object[]{searchQuery}
+				);
     }
 }

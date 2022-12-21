@@ -1,17 +1,16 @@
 package com.murebackend.murebackend.User;
 
 
-import com.murebackend.murebackend.Role.Role;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.murebackend.murebackend.Role.Role;
 
 @Repository
-@Slf4j
 public class JdbcUserRepository implements UserRepository {
 
 	@Autowired
@@ -49,7 +48,7 @@ public class JdbcUserRepository implements UserRepository {
 
 	@Override
 	public List<Role> getUserRoles(User user) {
-		return jdbcTemplate.query("SELECT roles.id, roles.name FROM role_user LEFT JOIN roles ON role_id = roles.id " +
+		return jdbcTemplate.queryForObject("SELECT roles.id, roles.name FROM role_user LEFT JOIN roles ON role_id = roles.id " +
 						"WHERE user_id = ?",
 				new Object[]{user.getId()},
 				BeanPropertyRowMapper.newInstance(Role.class));
