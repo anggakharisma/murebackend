@@ -1,6 +1,5 @@
 package com.murebackend.murebackend.User;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +35,8 @@ public class JdbcUserRepository implements UserRepository {
 	@Override
 	public User findByEmail(String email) {
 		return jdbcTemplate.queryForObject("SELECT * FROM users WHERE email=?",
-					BeanPropertyRowMapper.newInstance(User.class), email);
+				BeanPropertyRowMapper.newInstance(User.class), email);
 	}
-
 
 	@Override
 	public int addRole(Role role, User user) {
@@ -48,9 +46,10 @@ public class JdbcUserRepository implements UserRepository {
 
 	@Override
 	public List<Role> getUserRoles(User user) {
-		return (List<Role>) jdbcTemplate.queryForObject("SELECT roles.id, roles.name FROM role_user LEFT JOIN roles ON role_id = roles.id " +
+		return (List<Role>) jdbcTemplate.queryForObject(
+				"SELECT roles.id, roles.name FROM role_user LEFT JOIN roles ON role_id = roles.id " +
 						"WHERE user_id = ?",
-				new Object[]{user.getId()},
-				BeanPropertyRowMapper.newInstance(Role.class));
+				BeanPropertyRowMapper.newInstance(Role.class),
+				new Object[] { user.getId() });
 	}
 }
