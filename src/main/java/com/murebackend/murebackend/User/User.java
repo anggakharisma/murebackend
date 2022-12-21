@@ -10,7 +10,7 @@ import com.murebackend.murebackend.CommonProperties;
 import com.murebackend.murebackend.Role.Role;
 import lombok.*;
 
-@Data
+@Getter
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
