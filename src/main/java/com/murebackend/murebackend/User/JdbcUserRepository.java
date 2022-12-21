@@ -48,7 +48,7 @@ public class JdbcUserRepository implements UserRepository {
 
 	@Override
 	public List<Role> getUserRoles(User user) {
-		return jdbcTemplate.queryForObject("SELECT roles.id, roles.name FROM role_user LEFT JOIN roles ON role_id = roles.id " +
+		return (List<Role>) jdbcTemplate.queryForObject("SELECT roles.id, roles.name FROM role_user LEFT JOIN roles ON role_id = roles.id " +
 						"WHERE user_id = ?",
 				new Object[]{user.getId()},
 				BeanPropertyRowMapper.newInstance(Role.class));
