@@ -1,31 +1,30 @@
 package com.murebackend.murebackend.Auth;
 
-import com.murebackend.murebackend.Config.JwtTokenUtil;
-import com.murebackend.murebackend.Role.Role;
-import com.murebackend.murebackend.User.User;
-import com.murebackend.murebackend.User.UserDTO;
-import com.murebackend.murebackend.User.UserRepository;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.murebackend.murebackend.Config.JwtTokenUtil;
+import com.murebackend.murebackend.Role.Role;
+import com.murebackend.murebackend.User.User;
+import com.murebackend.murebackend.User.UserDTO;
+import com.murebackend.murebackend.User.UserRepository;
 
 @RestController
 @RequestMapping("/api")
-@Slf4j
 public class AuthController {
 
 	@Autowired

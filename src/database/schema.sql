@@ -9,7 +9,7 @@ CREATE TABLE users (
 	name VARCHAR NOT NULL,
 	email VARCHAR UNIQUE NOT NULL,
 	password VARCHAR NOT NULL,
-    image_path VARCHAR,
+	image_path VARCHAR,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
 );
@@ -32,7 +32,7 @@ CREATE TABLE artists (
 	image_path VARCHAR,
 	description TEXT,
 	created_at TIMESTAMP,
-    updated_at TIMESTAMP
+	updated_at TIMESTAMP
 );
 
 CREATE TABLE songs (
@@ -40,10 +40,26 @@ CREATE TABLE songs (
 	title VARCHAR NOT NULL,
 	year NUMERIC NOT NULL,
 	created_at TIMESTAMP,
-    updated_at TIMESTAMP
+	updated_at TIMESTAMP
 );
 
---CREATE TABLE albums {
---	id SERIAL PRIMARY KEY,
---}
+CREATE TABLE albums (
+	id SERIAL PRIMARY KEY,
+	title VARCHAR NOT NULL,
+	image_path VARCHAR NOT NULL,
+	year NUMERIC NOT NULL,
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP
+);
 
+CREATE TABLE album_song (
+	id SERIAL PRIMARY KEY,
+	album_id NUMERIC,
+	song_id NUMERIC
+);
+
+CREATE TABLE artist_song (
+	id SERIAL PRIMARY KEY,
+	song_id NUMERIC,
+	artist_id NUMERIC
+);

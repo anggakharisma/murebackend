@@ -1,11 +1,14 @@
 package com.murebackend.murebackend.Song;
 
-import com.murebackend.murebackend.CommonProperties;
-import lombok.*;
-
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+
+import com.murebackend.murebackend.CommonProperties;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -17,11 +20,8 @@ public class Song extends CommonProperties {
     private String title;
 
     @NonNull
-    @NotNull(message = "year is required")
-    private Integer year;
+    @NotBlank(message = "year is required")
+    private String year;
 
     private String imagePath;
-
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
 }

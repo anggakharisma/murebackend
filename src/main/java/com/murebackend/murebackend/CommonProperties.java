@@ -1,6 +1,5 @@
 package com.murebackend.murebackend;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
