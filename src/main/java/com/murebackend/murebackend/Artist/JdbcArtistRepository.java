@@ -43,7 +43,7 @@ public class JdbcArtistRepository implements ArtistRepository {
 	}
 
 	@Override
-	public int deleteById(Long id) {
+	public int delete(Long id) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
