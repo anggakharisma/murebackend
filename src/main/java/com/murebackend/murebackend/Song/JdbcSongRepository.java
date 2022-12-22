@@ -1,12 +1,13 @@
 package com.murebackend.murebackend.Song;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @Slf4j
@@ -28,7 +29,7 @@ public class JdbcSongRepository implements SongRepository {
 
     @Override
     public List<Song> searchSong(String searchQuery) {
-        return (List<Song>) jdbcTemplate.queryForObject("SELECT * FROM songs WHERE name ILIKE ?",
+        return (List<Song>) jdbcTemplate.query("SELECT * FROM songs WHERE name ILIKE ?",
 				BeanPropertyRowMapper.newInstance(Song.class),
 				new Object[]{searchQuery}
 				);

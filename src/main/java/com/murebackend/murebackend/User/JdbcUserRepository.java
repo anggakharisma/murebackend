@@ -39,18 +39,18 @@ public class JdbcUserRepository implements UserRepository {
 	}
 
 	@Override
-	public int addRole(Role role, User user) {
+	public int addRole(int roleId, int userId) {
 		return jdbcTemplate.update("INSERT INTO role_user(user_id, role_id) ",
-				user.getId(), role.getId());
+				userId, roleId);
 	}
 
 	@Override
 	public List<Role> getUserRoles(User user) {
-		return (List<Role>) jdbcTemplate.queryForObject(
+		return jdbcTemplate.query(
 				"SELECT roles.id, roles.name FROM role_user LEFT JOIN roles ON role_id = roles.id " +
 						"WHERE user_id = ?",
-				new Object[] { user.getId() },
-				BeanPropertyRowMapper.newInstance(Role.class)
-		);
+				BeanPropertyRowMapper.newInstance(Role.class),
+				user.getId()
+				);
 	}
 }
