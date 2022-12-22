@@ -23,8 +23,11 @@ import com.murebackend.murebackend.User.User;
 import com.murebackend.murebackend.User.UserDTO;
 import com.murebackend.murebackend.User.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class AuthController {
 
 	@Autowired
