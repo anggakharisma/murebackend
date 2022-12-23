@@ -50,7 +50,6 @@ public class JdbcUserRepository implements UserRepository {
 				"SELECT roles.id, roles.name FROM role_user LEFT JOIN roles ON role_id = roles.id " +
 						"WHERE user_id = ?",
 				BeanPropertyRowMapper.newInstance(Role.class),
-				user.getId()
-				);
+				user.getId());
 	}
 }
