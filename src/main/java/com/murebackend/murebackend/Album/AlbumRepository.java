@@ -8,8 +8,8 @@ public interface AlbumRepository {
 	int save(Album album);
 	int update(Album album);
 	List<Album> getAlbums();
-	List<Album> findAlbumByName(String name);
+	List<Album> findAlbumByName(String searchQuery);
 	Album findById(Long id);
-	List<Song> getAlbumSongs(Long id);
+	List<Song> getSongs(Long id);
 	int delete(Long id);
 }
