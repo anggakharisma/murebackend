@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,11 +45,16 @@ public class SongController {
     public ResponseEntity<?> getSong(@PathVariable("id") Long songId) {
         try {
             return new ResponseEntity<>(songRepository.getSong(songId), HttpStatus.OK);
+        } catch (EmptyResultDataAccessException e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Song not found");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("message", e.getMessage());
+            errorResponse.put(e.getMessage(), "Song not found");
 
-            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
     }
 
