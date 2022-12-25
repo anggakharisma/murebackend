@@ -7,6 +7,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.murebackend.murebackend.Album.Album;
+import com.murebackend.murebackend.Song.Song;
+
 @Repository
 public class JdbcArtistRepository implements ArtistRepository {
 
@@ -46,6 +49,18 @@ public class JdbcArtistRepository implements ArtistRepository {
 	public int delete(Long id) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<Album> getAlbums(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Song> getSongs(Long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -46,7 +46,7 @@ CREATE TABLE songs (
 CREATE TABLE albums (
 	id SERIAL PRIMARY KEY,
 	title VARCHAR NOT NULL,
-	image_path VARCHAR NOT NULL,
+	image_path VARCHAR,
 	year NUMERIC NOT NULL,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP

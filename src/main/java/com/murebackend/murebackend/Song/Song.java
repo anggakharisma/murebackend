@@ -1,6 +1,7 @@
 package com.murebackend.murebackend.Song;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.murebackend.murebackend.CommonProperties;
 
@@ -19,9 +20,8 @@ public class Song extends CommonProperties {
     @NotBlank(message = "title is required")
     private String title;
 
-    @NonNull
-    @NotBlank(message = "year is required")
-    private String year;
+    @NotNull(message = "year is required")
+    private int year;
 
     private String imagePath;
 }

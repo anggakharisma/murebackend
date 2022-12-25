@@ -1,6 +1,7 @@
 package com.murebackend.murebackend.Album;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.murebackend.murebackend.CommonProperties;
 
@@ -20,9 +21,8 @@ public class Album extends CommonProperties {
     @NotBlank(message = "Title is required")
     private String title;
 
-		@NonNull
-    @NotBlank(message = "year is required")
-    private String year;
+    @NotNull(message = "year is required")
+    private int year;
 
     private String imagePath;
 }

@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.murebackend.murebackend.Song.Song;
 
+@Repository
 public class JdbcAlbumRepository implements AlbumRepository {
 
 	@Autowired
@@ -15,7 +17,7 @@ public class JdbcAlbumRepository implements AlbumRepository {
 
 	@Override
 	public int save(Album album) {
-		return jdbcTemplate.update("INSERT INTO songs (title, year, created_at) VALUES (?,?, NOW())",
+		return jdbcTemplate.update("INSERT INTO albums (title, year, created_at) VALUES (?,?, NOW())",
 				album.getTitle(), album.getYear());
 	}
 
@@ -31,7 +33,7 @@ public class JdbcAlbumRepository implements AlbumRepository {
 
 	@Override
 	public List<Album> findAlbumByName(String searchQuery) {
-		return jdbcTemplate.query("SELECT * FROM albums WHERE name ILIKE ?",
+		return jdbcTemplate.query("SELECT * FROM albums WHERE title ILIKE ?",
 				BeanPropertyRowMapper.newInstance(Album.class),
 				searchQuery);
 	}
