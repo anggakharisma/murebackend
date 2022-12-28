@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.murebackend.murebackend.Song.Song;
+
 @RestController
 @RequestMapping("/api/albums")
 public class AlbumController {
@@ -31,6 +33,12 @@ public class AlbumController {
 	public ResponseEntity<?> findAlbumByName(@PathVariable("searchQuery") String searchQuery) {
 		List<Album> albums = albumRepository.findAlbumByName(searchQuery);
 		return new ResponseEntity<>(albums, HttpStatus.OK);
+	}
+
+	@GetMapping("/{id}/songs")
+	public ResponseEntity<?> getSongs(@PathVariable("id") Long id) {
+		List<Song> songs = albumRepository.getSongs(id)	;
+		return new ResponseEntity<>(songs, HttpStatus.OK);
 	}
 
 	@PostMapping("/")
