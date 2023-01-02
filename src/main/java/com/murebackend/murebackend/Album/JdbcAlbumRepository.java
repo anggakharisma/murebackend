@@ -55,4 +55,10 @@ public class JdbcAlbumRepository implements AlbumRepository {
 		return 0;
 	}
 
+	@Override
+	public int addSong(Long albumId, Long songId) {
+			return jdbcTemplate.update("INSERT INTO album_song (album_id, song_id) VALUES (?, ?)",
+				albumId, songId);
+	}
+
 }

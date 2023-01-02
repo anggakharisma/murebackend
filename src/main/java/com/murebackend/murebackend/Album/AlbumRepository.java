@@ -7,6 +7,7 @@ import com.murebackend.murebackend.Song.Song;
 public interface AlbumRepository {
 	int save(Album album);
 	int update(Album album);
+	int addSong(Long albumId, Long songId);
 	List<Album> getAlbums();
 	List<Album> findAlbumByName(String searchQuery);
 	Album findById(Long id);
