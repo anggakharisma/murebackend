@@ -23,7 +23,9 @@ public class JwtUserDetailsService implements UserDetailsService {
         com.murebackend.murebackend.User.User user = userRepository.findByEmail(email);
         List<Role> roles = userRepository.getUserRoles(user);
         List<GrantedAuthority> authorityList = new ArrayList<>();
-        authorityList.add(new SimpleGrantedAuthority("USER_ROLE"));
+				roles.forEach(item -> {
+					authorityList.add(new SimpleGrantedAuthority(item.getName()));
+				});
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorityList);
     }
 }
