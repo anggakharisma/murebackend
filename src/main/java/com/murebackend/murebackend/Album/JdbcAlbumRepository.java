@@ -45,7 +45,9 @@ public class JdbcAlbumRepository implements AlbumRepository {
 
 	@Override
 	public List<Song> getSongs(Long id) {
-		return jdbcTemplate.query("SELECT songs.title FROM album_song LEFT JOIN songs ON song_id = songs.id WHERE album_id = id", 
+		return jdbcTemplate.query(
+				"SELECT songs.title FROM album_songs LEFT JOIN roles ON song_id = songs.id " +
+						"WHERE song_id = ?",
 				BeanPropertyRowMapper.newInstance(Song.class),
 				id);
 	}
@@ -57,7 +59,7 @@ public class JdbcAlbumRepository implements AlbumRepository {
 
 	@Override
 	public int addSong(Long albumId, Long songId) {
-			return jdbcTemplate.update("INSERT INTO album_song (album_id, song_id) VALUES (?, ?)",
+		return jdbcTemplate.update("INSERT INTO album_song (album_id, song_id) VALUES (?, ?)",
 				albumId, songId);
 	}
 
