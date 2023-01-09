@@ -46,7 +46,7 @@ public class JdbcAlbumRepository implements AlbumRepository {
 	@Override
 	public List<Song> getSongs(Long id) {
 		return jdbcTemplate.query(
-				"SELECT songs.title FROM album_songs LEFT JOIN roles ON song_id = songs.id " +
+				"SELECT songs.title FROM album_song LEFT JOIN songs ON song_id = songs.id " +
 						"WHERE song_id = ?",
 				BeanPropertyRowMapper.newInstance(Song.class),
 				id);

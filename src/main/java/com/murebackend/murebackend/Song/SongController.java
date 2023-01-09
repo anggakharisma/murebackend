@@ -37,7 +37,7 @@ public class SongController {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("message", e.getMessage());
 
-            return new ResponseEntity<>(errorResponse, HttpStatus.CREATED);
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -55,7 +55,7 @@ public class AlbumController {
 			Map<String, Object> errorResponse = new HashMap<>();
 			errorResponse.put("message", e.getMessage());
 
-			return new ResponseEntity<>(errorResponse, HttpStatus.CREATED);
+			return new ResponseEntity<>("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
