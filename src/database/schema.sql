@@ -8,7 +8,7 @@ CREATE TABLE users (
 	id	serial PRIMARY KEY,
 	name VARCHAR NOT NULL,
 	email VARCHAR UNIQUE NOT NULL,
-	password VARCHAR NOT NULL,
+	password VARCHAR NOT NULL, 
 	image_path VARCHAR,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
