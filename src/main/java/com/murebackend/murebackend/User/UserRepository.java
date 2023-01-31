@@ -11,5 +11,6 @@ public interface UserRepository {
 	void updateImage(User user, String image);
 	User findByEmail(String email);
 	int addRole(int roleId, int userId);
+	int addRole(Long roleId, Long userId);
 	List<Role> getUserRoles(User user);
 }

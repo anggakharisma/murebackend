@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.murebackend.murebackend.Role.Role;
+import com.murebackend.murebackend.Role.RoleRepository;
 import com.murebackend.murebackend.Utils.FileDownloadUtil;
 import com.murebackend.murebackend.Utils.FileUploadUtil;
 
@@ -36,6 +38,9 @@ public class UserController {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	RoleRepository roleRepository;
 
 
 	@Autowired
@@ -91,6 +96,8 @@ public class UserController {
 		try {
 			Map<String, Object> response = new HashMap<>();
 			userRepository.save(new User(user.getName(), user.getEmail(), passwordEncoder.encode(user.getPassword())));
+			Role role = roleRepository.findByName("ROLE_USER");
+			userRepository.addRole(role.getId(), user.getId());
 
 			response.put("message", user.getName() + " registered");
 			return new ResponseEntity<>(response, HttpStatus.CREATED);

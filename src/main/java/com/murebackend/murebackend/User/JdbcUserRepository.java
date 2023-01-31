@@ -45,6 +45,12 @@ public class JdbcUserRepository implements UserRepository {
 	}
 
 	@Override
+	public int addRole(Long roleId, Long userId) {
+		return jdbcTemplate.update("INSERT INTO role_user(user_id, role_id) ",
+				userId, roleId);
+	}
+
+	@Override
 	public List<Role> getUserRoles(User user) {
 		return jdbcTemplate.query(
 				"SELECT roles.id, roles.name FROM role_user LEFT JOIN roles ON role_id = roles.id " +
