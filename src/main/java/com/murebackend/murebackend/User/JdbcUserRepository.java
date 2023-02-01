@@ -1,10 +1,14 @@
 package com.murebackend.murebackend.User;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.murebackend.murebackend.Role.Role;
@@ -16,9 +20,21 @@ public class JdbcUserRepository implements UserRepository {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public void save(User user) {
-		jdbcTemplate.update("INSERT INTO users (name, email, password, created_at) VALUES (?,?,?, NOW())",
-				user.getName(), user.getEmail(), user.getPassword());
+	public Long save(User user) {
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+
+		jdbcTemplate.update(connection -> {
+			PreparedStatement ps = connection
+					.prepareStatement("INSERT INTO users (name, email, password, created_at) VALUES (?,?,?, NOW())",
+							new String[] { "id" });
+			ps.setString(1, user.getName());
+			ps.setString(2, user.getEmail());
+			ps.setString(3, user.getPassword());
+			return ps;
+		}, keyHolder);
+
+
+		return keyHolder.getKey().longValue();
 	}
 
 	@Override
@@ -39,14 +55,8 @@ public class JdbcUserRepository implements UserRepository {
 	}
 
 	@Override
-	public int addRole(int roleId, int userId) {
-		return jdbcTemplate.update("INSERT INTO role_user(user_id, role_id) ",
-				userId, roleId);
-	}
-
-	@Override
 	public int addRole(Long roleId, Long userId) {
-		return jdbcTemplate.update("INSERT INTO role_user(user_id, role_id) ",
+		return jdbcTemplate.update("INSERT INTO role_user(user_id, role_id) VALUES(?, ?) ",
 				userId, roleId);
 	}
 

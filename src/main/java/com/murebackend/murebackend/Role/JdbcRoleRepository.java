@@ -26,7 +26,7 @@ public  class JdbcRoleRepository implements RoleRepository {
 
     @Override
     public Role findByName(String name) {
-        return jdbcTemplate.queryForObject("SELECT * FROM roles WHERE name=?",
+        return jdbcTemplate.queryForObject("SELECT * FROM roles WHERE name = ?",
                 BeanPropertyRowMapper.newInstance(Role.class), name);
     }
 

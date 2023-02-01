@@ -32,8 +32,11 @@ import com.murebackend.murebackend.Role.RoleRepository;
 import com.murebackend.murebackend.Utils.FileDownloadUtil;
 import com.murebackend.murebackend.Utils.FileUploadUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/api/users")
+@Slf4j
 public class UserController {
 
 	@Autowired
@@ -41,7 +44,6 @@ public class UserController {
 
 	@Autowired
 	RoleRepository roleRepository;
-
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -95,11 +97,12 @@ public class UserController {
 	public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
 		try {
 			Map<String, Object> response = new HashMap<>();
-			userRepository.save(new User(user.getName(), user.getEmail(), passwordEncoder.encode(user.getPassword())));
+			Long userId = userRepository
+					.save(new User(user.getName(), user.getEmail(), passwordEncoder.encode(user.getPassword())));
 			Role role = roleRepository.findByName("ROLE_USER");
-			userRepository.addRole(role.getId(), user.getId());
+			userRepository.addRole(role.getId(), userId);
 
-			response.put("message", user.getName() + " registered");
+			response.put("message", userId + " registered");
 			return new ResponseEntity<>(response, HttpStatus.CREATED);
 		} catch (DuplicateKeyException e) {
 			Map<String, Object> errorResponse = new HashMap<>();
