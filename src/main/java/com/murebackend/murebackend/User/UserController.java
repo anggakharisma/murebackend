@@ -32,11 +32,8 @@ import com.murebackend.murebackend.Role.RoleRepository;
 import com.murebackend.murebackend.Utils.FileDownloadUtil;
 import com.murebackend.murebackend.Utils.FileUploadUtil;
 
-import lombok.extern.slf4j.Slf4j;
-
 @RestController
 @RequestMapping("/api/users")
-@Slf4j
 public class UserController {
 
 	@Autowired

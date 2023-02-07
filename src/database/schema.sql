@@ -39,6 +39,8 @@ CREATE TABLE songs (
 	id SERIAL PRIMARY KEY,
 	title VARCHAR NOT NULL,
 	year NUMERIC NOT NULL,
+	image_path VARCHAR,
+	audio_path VARCHAR,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
 );

@@ -1,7 +1,6 @@
 package com.murebackend.murebackend.User;
 
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;

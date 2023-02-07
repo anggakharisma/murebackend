@@ -24,4 +24,5 @@ public class Song extends CommonProperties {
     private int year;
 
     private String imagePath;
+    private String audioPath;
 }
