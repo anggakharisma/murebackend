@@ -42,6 +42,7 @@ public class JwtTokenUtil implements Serializable {
   public String getEmailFromToken(String token) {
     return getClaimFromToken(token, Claims::getSubject);
   }
+
   public boolean verifyToken(String token) {
     try {
       Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -63,6 +64,7 @@ public class JwtTokenUtil implements Serializable {
   public Date getExpirationDateFromToken(String token) {
     return getClaimFromToken(token, Claims::getExpiration);
   }
+	
   private Boolean isTokenExpired(String token) {
     final Date expiration = getExpirationDateFromToken(token);
     return expiration.before(new Date());
