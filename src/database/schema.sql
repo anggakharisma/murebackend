@@ -5,7 +5,7 @@ GRANT ALL ON SCHEMA public TO public;
 
 
 CREATE TABLE users (
-	id	serial PRIMARY KEY,
+	id serial PRIMARY KEY,
 	name VARCHAR NOT NULL,
 	email VARCHAR UNIQUE NOT NULL,
 	password VARCHAR NOT NULL, 
