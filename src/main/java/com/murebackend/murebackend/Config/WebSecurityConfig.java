@@ -42,6 +42,7 @@ public class WebSecurityConfig {
 				.antMatchers("/").permitAll()
 				.antMatchers("/api/auth/").permitAll()
 				.antMatchers("/api/users/register/").permitAll()
+				.antMatchers("/images/**").permitAll()
 
 				.antMatchers(HttpMethod.GET, "/api/artists/").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/albums/*/*/").permitAll()

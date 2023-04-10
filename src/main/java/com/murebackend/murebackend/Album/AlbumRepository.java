@@ -11,6 +11,6 @@ public interface AlbumRepository {
 	List<Album> getAlbums();
 	List<Album> findAlbumByName(String searchQuery);
 	Album findById(Long id);
-	List<Song> getSongs(Long id);
+	List<Song> getSongs(Long albumId);
 	int delete(Long id);
 }

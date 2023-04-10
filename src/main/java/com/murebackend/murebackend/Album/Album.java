@@ -23,6 +23,5 @@ public class Album extends CommonProperties {
 
     @NotNull(message = "Year is required")
     private int year;
-
     private String imagePath;
 }

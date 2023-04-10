@@ -3,12 +3,11 @@ CREATE SCHEMA public;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO public;
 
-
 CREATE TABLE users (
 	id serial PRIMARY KEY,
 	name VARCHAR NOT NULL,
 	email VARCHAR UNIQUE NOT NULL,
-	password VARCHAR NOT NULL, 
+	password VARCHAR, 
 	image_path VARCHAR,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
@@ -41,6 +40,8 @@ CREATE TABLE songs (
 	year NUMERIC NOT NULL,
 	image_path VARCHAR,
 	audio_path VARCHAR,
+	artist_id NUMERIC,
+	album_id NUMERIC,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
 );
@@ -54,14 +55,19 @@ CREATE TABLE albums (
 	updated_at TIMESTAMP
 );
 
-CREATE TABLE album_song (
-	id SERIAL PRIMARY KEY,
-	album_id NUMERIC,
-	song_id NUMERIC
+CREATE TABLE artist_song (
+	artist_id NUMERIC NOT NULL,
+	song_id NUMERIC NOT NULL,
+	is_featured BOOLEAN NOT NULL,
 );
 
-CREATE TABLE artist_song (
+CREATE TABLE album_song (
+	album_id NUMERIC NOT NULL,
+	song_id NUMERIC NOT NULL
+);
+
+CREATE TABLE playlist (
 	id SERIAL PRIMARY KEY,
-	song_id NUMERIC,
-	artist_id NUMERIC
+	title VARCHAR(255) NOT NULL,
+	is_public BOOLEAN NOT NULL,
 );

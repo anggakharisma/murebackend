@@ -56,6 +56,7 @@ public class AuthController {
 				responseErr.put("message", "Wrong password ??");
 				return new ResponseEntity<>(responseErr, HttpStatus.BAD_REQUEST);
 			}
+			userDetail.setImagePath("/images/user/" + userDetail.getImagePath());
 
 			Map<String, Object> response = new HashMap<>();
 			response.put("message", "Login success");

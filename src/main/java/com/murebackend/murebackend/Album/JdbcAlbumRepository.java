@@ -44,12 +44,12 @@ public class JdbcAlbumRepository implements AlbumRepository {
 	}
 
 	@Override
-	public List<Song> getSongs(Long id) {
+	public List<Song> getSongs(Long albumId) {
 		return jdbcTemplate.query(
 				"SELECT songs.title FROM album_song LEFT JOIN songs ON song_id = songs.id " +
-						"WHERE song_id = ?",
+						"WHERE album_id = ?",
 				BeanPropertyRowMapper.newInstance(Song.class),
-				id);
+				albumId);
 	}
 
 	@Override

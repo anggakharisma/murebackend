@@ -25,4 +25,6 @@ public class Song extends CommonProperties {
 
     private String imagePath;
     private String audioPath;
+		private int artistId;
+		private int albumId;
 }
