@@ -56,7 +56,7 @@ public class UserController {
 
 		Map<String, Object> response = new HashMap<>();
 		response.put("full_name", fileCode + "-" + fileName);
-		response.put("download_uri", "/images/user/" + fileNameFull);
+		response.put("download_url", "/images/user/" + fileNameFull);
 		response.put("message", "File upload completed successfully");
 
 		return new ResponseEntity<>(response, HttpStatus.OK);
