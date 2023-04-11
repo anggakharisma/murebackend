@@ -40,8 +40,8 @@ CREATE TABLE songs (
 	year NUMERIC NOT NULL,
 	image_path VARCHAR,
 	audio_path VARCHAR,
-	artist_id NUMERIC,
-	album_id NUMERIC,
+	artist_id NUMERIC NOT NULL,
+	album_id NUMERIC NOT NULL,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
 );
@@ -58,7 +58,7 @@ CREATE TABLE albums (
 CREATE TABLE artist_song (
 	artist_id NUMERIC NOT NULL,
 	song_id NUMERIC NOT NULL,
-	is_featured BOOLEAN NOT NULL,
+	is_featured BOOLEAN NOT NULL
 );
 
 CREATE TABLE album_song (
@@ -69,5 +69,5 @@ CREATE TABLE album_song (
 CREATE TABLE playlist (
 	id SERIAL PRIMARY KEY,
 	title VARCHAR(255) NOT NULL,
-	is_public BOOLEAN NOT NULL,
+	is_public BOOLEAN NOT NULL
 );

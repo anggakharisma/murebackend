@@ -45,9 +45,9 @@ public class WebSecurityConfig {
 				.antMatchers("/images/**").permitAll()
 
 				.antMatchers(HttpMethod.GET, "/api/artists/").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/albums/*/*/").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/albums/**/").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/albums/").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/songs/*/").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/songs/**/").permitAll()
 
 				.antMatchers(HttpMethod.GET, "/api/roles/").permitAll()
 

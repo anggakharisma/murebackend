@@ -9,22 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/songs")
+@Slf4j
 public class SongController {
 
     @Autowired
     SongRepository songRepository;
 
     @PostMapping("/")
-    public ResponseEntity<?> addSong(@Valid @RequestBody Song song) {
+    public ResponseEntity<?> addSong(@Valid Song song, @RequestParam("file") MultipartFile multipartFile) {
         try {
             Map<String, Object> response = new HashMap<>();
             songRepository.save(song);
@@ -33,7 +39,7 @@ public class SongController {
 
             return new ResponseEntity<>(response, HttpStatus.CREATED);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("message", e.getMessage());
 

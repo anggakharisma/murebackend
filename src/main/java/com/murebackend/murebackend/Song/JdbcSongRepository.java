@@ -17,7 +17,7 @@ public class JdbcSongRepository implements SongRepository {
 
 	@Override
 	public int save(Song song) {
-		return jdbcTemplate.update("INSERT INTO songs (title, year, artist_id, album_id, created_at) VALUES (?,?, NOW())",
+		return jdbcTemplate.update("INSERT INTO songs (title, year, artist_id, album_id, created_at) VALUES (?,?,?,?, NOW())",
 				song.getTitle(), song.getYear(), song.getArtistId(), song.getAlbumId());
 	}
 

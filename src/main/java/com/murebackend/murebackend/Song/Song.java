@@ -3,6 +3,8 @@ package com.murebackend.murebackend.Song;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.murebackend.murebackend.CommonProperties;
 
 import lombok.Getter;
@@ -19,12 +21,14 @@ public class Song extends CommonProperties {
     @NonNull
     @NotBlank(message = "title is required")
     private String title;
-
-    @NotNull(message = "year is required")
-    private int year;
+    @NotNull
+    private Integer year;
 
     private String imagePath;
     private String audioPath;
-		private int artistId;
-		private int albumId;
+
+    @NotNull
+    private Integer artistId;
+    @NotNull
+    private Integer albumId;
 }
