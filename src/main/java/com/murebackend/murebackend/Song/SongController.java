@@ -7,12 +7,11 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 
-import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,18 +52,24 @@ public class SongController {
     }
 
     @PostMapping("/image")
-    public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile multipartFile)
+            throws IOException {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "images/song");
         String fileNameFull = fileCode + "-" + fileName;
         Map<String, Object> response = new HashMap<>();
-        response.put("download_url", "/images/song/" + fileNameFull);
+        response.put("path", "/images/song/" + fileNameFull);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/audio-file")
-    public ResponseEntity<?> uploadAudio(@RequestParam("file") MultipartFile multipartFile) {
-        return new ResponseEntity<>("Ree", HttpStatus.OK);
+    public ResponseEntity<?> uploadAudio(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "song/");
+        String fileNameFull = fileCode + "-" + fileName;
+        Map<String, Object> response = new HashMap<>();
+        response.put("path", "/song/" + fileNameFull);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
