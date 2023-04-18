@@ -8,7 +8,12 @@ import javax.validation.constraints.Pattern;
 
 import com.murebackend.murebackend.CommonProperties;
 import com.murebackend.murebackend.Role.Role;
-import lombok.*;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -25,10 +30,6 @@ public class User extends CommonProperties {
 	@Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
 	@NotBlank(message = "email is required")
 	private String email;
-
-
-	@NonNull
-	@NotBlank(message = "password is required")
 	private String password;
 
 	private String imagePath;

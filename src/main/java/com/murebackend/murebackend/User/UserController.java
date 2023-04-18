@@ -27,7 +27,10 @@ import com.murebackend.murebackend.Role.Role;
 import com.murebackend.murebackend.Role.RoleRepository;
 import com.murebackend.murebackend.Utils.FileUploadUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 @RequestMapping("/api/users")
 public class UserController {
 
@@ -67,7 +70,9 @@ public class UserController {
 		try {
 			Map<String, Object> response = new HashMap<>();
 			Long userId = userRepository
-					.save(new User(user.getName(), user.getEmail(), passwordEncoder.encode(user.getPassword())));
+					.save(new User(user.getName(), user.getEmail()), user.getPassword());
+
+			log.info(user.getPassword());
 
 			if (user.roleName == null || user.roleName.isEmpty()) {
 				user.roleName = "ROLE_USER";

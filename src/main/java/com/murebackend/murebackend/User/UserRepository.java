@@ -5,7 +5,7 @@ import java.util.List;
 import com.murebackend.murebackend.Role.Role;
 
 public interface UserRepository {
-	Long save(User user);
+	Long save(User user, String password);
 
 	int update(User user);
 

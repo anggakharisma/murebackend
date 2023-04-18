@@ -19,7 +19,7 @@ public class JdbcUserRepository implements UserRepository {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public Long save(User user) {
+	public Long save(User user, String password) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(connection -> {
@@ -28,7 +28,7 @@ public class JdbcUserRepository implements UserRepository {
 							new String[] { "id" });
 			ps.setString(1, user.getName());
 			ps.setString(2, user.getEmail());
-			ps.setString(3, user.getPassword());
+			ps.setString(3, password);
 			return ps;
 		}, keyHolder);
 
