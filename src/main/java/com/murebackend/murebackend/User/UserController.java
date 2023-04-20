@@ -70,9 +70,7 @@ public class UserController {
 		try {
 			Map<String, Object> response = new HashMap<>();
 			Long userId = userRepository
-					.save(new User(user.getName(), user.getEmail()), user.getPassword());
-
-			log.info(user.getPassword());
+					.save(new User(user.getName(), user.getEmail()), passwordEncoder.encode(user.getPassword()));
 
 			if (user.roleName == null || user.roleName.isEmpty()) {
 				user.roleName = "ROLE_USER";

@@ -39,18 +39,11 @@ public class WebSecurityConfig {
 		http
 				.cors().and().csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/").permitAll()
-				.antMatchers("/api/auth/").permitAll()
-				.antMatchers("/api/users/register/").permitAll()
+				.antMatchers("/", "/api/auth/", "/api/users/register/").permitAll()
 				.antMatchers("/images/**").permitAll()
-
-				.antMatchers(HttpMethod.GET, "/api/artists/").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/albums/**/").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/albums/").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/artists/", "/api/albums/**/", "/api/albums/").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/songs/**/").permitAll()
-
 				.antMatchers(HttpMethod.GET, "/api/roles/").permitAll()
-
 				.anyRequest().authenticated()
 				.and().exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
 					Map<String, Object> responseMap = new HashMap<>();

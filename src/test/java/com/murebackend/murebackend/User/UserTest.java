@@ -1,16 +1,17 @@
 package com.murebackend.murebackend.User;
 
-import com.murebackend.murebackend.BaseTest;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.murebackend.murebackend.BaseTest;
 
 
 public class UserTest  extends BaseTest {
@@ -22,7 +23,7 @@ public class UserTest  extends BaseTest {
 	@Test
 	void registerTest() throws Exception {
 		Map<String, Object> body = new HashMap<>();
-		body.put("email", "adminxxx@admin.com");
+		body.put("email", "adminxxx2@admin.com");
 		body.put("name", "admin");
 		body.put("password", "admin");
 

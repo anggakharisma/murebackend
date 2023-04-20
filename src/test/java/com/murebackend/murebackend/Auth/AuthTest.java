@@ -1,17 +1,18 @@
 package com.murebackend.murebackend.Auth;
 
-import com.murebackend.murebackend.BaseTest;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.murebackend.murebackend.BaseTest;
 
 public class AuthTest extends BaseTest {
 
@@ -32,7 +33,7 @@ public class AuthTest extends BaseTest {
                 .content(objectMapper.writeValueAsString(body))
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
-        mockMvc.perform(post("/api/auth")
+        mockMvc.perform(post("/api/auth/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body))
                         .accept(MediaType.APPLICATION_JSON))
