@@ -1,6 +1,6 @@
 # MUREBACKEND
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)]([https://github.com/your-username/your-repo/blob/master/LICENSE](https://github.com/anggakharisma/murebackend/blob/main/LICENSE))
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/anggakharisma/murebackend/blob/main/LICENSE)
 
 This project is built using Java and Spring Boot framework to provide a robust and secure RESTful API. It includes features such as JWT authentication, file upload (supporting both images and audio files), secure routes, and integration testing. 🚀
 
