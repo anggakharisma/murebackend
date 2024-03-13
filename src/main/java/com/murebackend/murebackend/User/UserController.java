@@ -79,7 +79,7 @@ public class UserController {
 			Role role = roleRepository.findByName(user.roleName);
 			userRepository.addRole(role.getId(), userId);
 
-			response.put("message", userId + " registered");
+			response.put("message", user.getName() + " registered");
 			return new ResponseEntity<>(response, HttpStatus.CREATED);
 		} catch (DuplicateKeyException e) {
 			Map<String, Object> errorResponse = new HashMap<>();
@@ -88,6 +88,7 @@ public class UserController {
 		} catch (Exception e) {
 			Map<String, Object> errorResponse = new HashMap<>();
 			errorResponse.put("message", e.getMessage());
+			errorResponse.put("err", e.getCause());
 			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

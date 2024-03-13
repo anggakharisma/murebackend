@@ -15,7 +15,9 @@ CREATE TABLE users (
 
 CREATE TABLE roles (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR UNIQUE NOT NULL
+	name VARCHAR UNIQUE NOT NULL,
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP
 );
 
 CREATE TABLE role_user (
@@ -69,5 +71,7 @@ CREATE TABLE album_song (
 CREATE TABLE playlist (
 	id SERIAL PRIMARY KEY,
 	title VARCHAR(255) NOT NULL,
-	is_public BOOLEAN NOT NULL
+	is_public BOOLEAN NOT NULL,
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP
 );

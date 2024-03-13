@@ -3,6 +3,9 @@ package com.murebackend.murebackend.Album;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -27,8 +30,13 @@ public class JdbcAlbumRepository implements AlbumRepository {
 	}
 
 	@Override
-	public List<Album> getAlbums() {
-		return jdbcTemplate.query("SELECT * FROM albums", BeanPropertyRowMapper.newInstance(Album.class));
+	public Page<Album> getAlbums(Pageable pageable) {
+		int total = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM albums", Integer.class);
+
+
+		List<Album> albums = jdbcTemplate.query("SELECT * FROM albums LIMIT ? OFFSET ?", BeanPropertyRowMapper.newInstance(Album.class), new Object[] { pageable.getPageSize(), pageable.getOffset() });
+
+		return new PageImpl<>(albums, pageable, total);
 	}
 
 	@Override

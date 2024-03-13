@@ -1,9 +1,10 @@
 package com.murebackend.murebackend.Song;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface SongRepository {
     int save(Song song);
     Song getSong(Long id);
-    List<Song> searchSong(String searchQuery);
+    Page<Song> findSong(String searchQuery, Pageable pageable);
 }

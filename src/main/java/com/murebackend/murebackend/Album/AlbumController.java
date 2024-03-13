@@ -7,6 +7,9 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +28,10 @@ public class AlbumController {
 	AlbumRepository albumRepository;
 
 	@GetMapping("/")
-	public ResponseEntity<?> getAlbums() {
-		return new ResponseEntity<>(albumRepository.getAlbums(), HttpStatus.OK);
+	public ResponseEntity<?> getAlbums(Pageable pageable, PagedResourcesAssembler<Album> assembler) {
+		Page<Album> albums = albumRepository.getAlbums(pageable);
+
+		return new ResponseEntity<>(assembler.toModel(albums), HttpStatus.OK);
 	}
 
 	@GetMapping("/{searchQuery}")
