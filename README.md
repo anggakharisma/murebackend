@@ -17,3 +17,10 @@ Before running this project locally, ensure you have the following installed:
 
 - Java Development Kit (JDK) 17 or later
 - PostgreSQL
+
+## Development
+use inteliJ or via terminal run these commands
+
+./gradlew bootJar --continuous
+./gradlew bootRun
+```

@@ -9,7 +9,7 @@ import com.murebackend.murebackend.Song.Song;
 
 public interface AlbumRepository {
 	int save(Album album);
-	int update(Album album);
+	void update(Album album, Long id);
 	int addSong(Long albumId, Long songId);
 	Page<Album> getAlbums(Pageable pageable);
 	List<Album> findAlbumByName(String searchQuery);

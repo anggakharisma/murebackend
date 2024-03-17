@@ -12,7 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import com.murebackend.murebackend.Song.Song;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Repository
+@Slf4j
 public class JdbcAlbumRepository implements AlbumRepository {
 
 	@Autowired
@@ -25,16 +28,18 @@ public class JdbcAlbumRepository implements AlbumRepository {
 	}
 
 	@Override
-	public int update(Album album) {
-		return 0;
+	public void update(Album album, Long id) {
+		jdbcTemplate.update("UPDATE albums SET title = ?, year = ?, updated_at = NOW() WHERE id = ?", album.getTitle(), album.getYear(), id);
+
 	}
 
 	@Override
 	public Page<Album> getAlbums(Pageable pageable) {
 		int total = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM albums", Integer.class);
 
-
-		List<Album> albums = jdbcTemplate.query("SELECT * FROM albums LIMIT ? OFFSET ?", BeanPropertyRowMapper.newInstance(Album.class), new Object[] { pageable.getPageSize(), pageable.getOffset() });
+		List<Album> albums = jdbcTemplate.query("SELECT * FROM albums LIMIT ? OFFSET ?",
+				BeanPropertyRowMapper.newInstance(Album.class),
+				new Object[] { pageable.getPageSize(), pageable.getOffset() });
 
 		return new PageImpl<>(albums, pageable, total);
 	}
@@ -48,7 +53,8 @@ public class JdbcAlbumRepository implements AlbumRepository {
 
 	@Override
 	public Album findById(Long id) {
-		return null;
+		return jdbcTemplate.queryForObject("SELECT * FROM albums WHERE id = ?",
+				BeanPropertyRowMapper.newInstance(Album.class), id);
 	}
 
 	@Override
