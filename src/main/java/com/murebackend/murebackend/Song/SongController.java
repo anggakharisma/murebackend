@@ -9,6 +9,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -32,6 +34,18 @@ public class SongController {
 
     @Autowired
     SongRepository songRepository;
+
+    @GetMapping("/")
+    public ResponseEntity<?> getSongs(Pageable pageable) {
+        try {
+            Page<Song> songsCollections = songRepository.findSong("", pageable);
+            return new ResponseEntity<>(songsCollections, HttpStatus.OK);
+        } catch (Exception e) {
+            Map<String, Object> errResponse = new HashMap<>();
+            errResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errResponse, HttpStatus.OK);
+        }
+    }
 
     @PostMapping("/")
     public ResponseEntity<?> addSong(@Valid @RequestBody Song song) {

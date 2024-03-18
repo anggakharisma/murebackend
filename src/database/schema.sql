@@ -75,3 +75,11 @@ CREATE TABLE playlist (
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
 );
+
+CREATE TABLE song_stats (
+	id SERIAL PRIMARY KEY,
+	song_id NUMERIC NOT NULL,
+	listener NUMERIC NOT NULL,
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP
+)

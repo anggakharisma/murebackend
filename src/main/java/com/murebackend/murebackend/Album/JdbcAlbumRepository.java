@@ -29,7 +29,8 @@ public class JdbcAlbumRepository implements AlbumRepository {
 
 	@Override
 	public void update(Album album, Long id) {
-		jdbcTemplate.update("UPDATE albums SET title = ?, year = ?, updated_at = NOW() WHERE id = ?", album.getTitle(), album.getYear(), id);
+		jdbcTemplate.update("UPDATE albums SET title = ?, year = ?, updated_at = NOW() WHERE id = ?", album.getTitle(),
+				album.getYear(), id);
 
 	}
 
@@ -45,10 +46,15 @@ public class JdbcAlbumRepository implements AlbumRepository {
 	}
 
 	@Override
-	public List<Album> findAlbumByName(String searchQuery) {
-		return jdbcTemplate.query("SELECT * FROM albums WHERE title ILIKE ?",
+	public Page<Album> findAlbumByName(Pageable pageable, String searchQuery) {
+		int total = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM albums WHERE title ILIKE concat('%', ?, '%')",
+				Integer.class, new Object[] { searchQuery });
+
+		List<Album> albums = jdbcTemplate.query(
+				"SELECT * FROM albums WHERE title ILIKE concat('%', ?, '%') LIMIT ? OFFSET ?",
 				BeanPropertyRowMapper.newInstance(Album.class),
-				searchQuery);
+				new Object[] { searchQuery, pageable.getPageSize(), pageable.getOffset() });
+		return new PageImpl<>(albums, pageable, total);
 	}
 
 	@Override

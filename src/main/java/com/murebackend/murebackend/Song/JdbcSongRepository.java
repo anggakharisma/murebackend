@@ -36,7 +36,7 @@ public class JdbcSongRepository implements SongRepository {
 		String countQuery = "SELECT COUNT(*) FROM songs";
 		int total = jdbcTemplate.queryForObject(countQuery, Integer.class);
 
-		String query = "SELECT * FROM songs WHERE name ILIKE ? ORDER BY title LIMIT ? OFFSET ?";
+		String query = "SELECT * FROM songs WHERE title ILIKE ? ORDER BY title LIMIT ? OFFSET ?";
 		List<Song> songs = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Song.class),
 				new Object[] { searchQuery, pageable.getPageSize(), pageable.getOffset() });
 

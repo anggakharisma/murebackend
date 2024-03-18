@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -34,12 +35,19 @@ public class AlbumController {
 	AlbumRepository albumRepository;
 
 	@GetMapping("/")
-	public ResponseEntity<?> getAlbums(Pageable pageable, PagedResourcesAssembler<Album> assembler,
-			@RequestParam("q") Optional<String> q) {
-			System.out.println(q);
-		Page<Album> albums = albumRepository.getAlbums(pageable);
+	public ResponseEntity<?> getAlbums(Pageable pageable, @RequestParam("q") Optional<String> q) {
+		try {
 
-		return new ResponseEntity<>(assembler.toModel(albums), HttpStatus.OK);
+			Page<Album> albumsCollections = albumRepository.findAlbumByName(pageable, q.orElse(""));
+
+			return new ResponseEntity<>(albumsCollections, HttpStatus.OK);
+		} catch (Exception e) {
+			Map<String, Object> errorResponse = new HashMap<>();
+			errorResponse.put("message", "Something went wrong");
+			log.error("getAlbums: " + e.getMessage());
+
+			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@GetMapping("/{id}")
@@ -52,13 +60,20 @@ public class AlbumController {
 	public ResponseEntity<?> updateSong(@Valid @RequestBody Album albumReqest, @PathVariable("id") Long id) {
 		try {
 			Album album = albumRepository.findById(id);
+			log.info(album.getTitle());
 			albumRepository.update(albumReqest, id);
 
 			Map<String, Object> response = new HashMap<>();
 			response.put("message", "album updated");
 
 			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (IncorrectResultSizeDataAccessException e) {
+			Map<String, Object> errorResponse = new HashMap<>();
+			errorResponse.put("message", "Album not found");
+
+			return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
+
 			Map<String, Object> errorResponse = new HashMap<>();
 			errorResponse.put("message", e.getMessage());
 

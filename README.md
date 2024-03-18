@@ -20,7 +20,11 @@ Before running this project locally, ensure you have the following installed:
 
 ## Development
 use inteliJ or via terminal run these commands
-
+```
 ./gradlew bootJar --continuous
+
+and on another terminal
+
 ./gradlew bootRun
+
 ```

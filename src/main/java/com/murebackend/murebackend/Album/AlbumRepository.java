@@ -12,7 +12,7 @@ public interface AlbumRepository {
 	void update(Album album, Long id);
 	int addSong(Long albumId, Long songId);
 	Page<Album> getAlbums(Pageable pageable);
-	List<Album> findAlbumByName(String searchQuery);
+	Page<Album> findAlbumByName(Pageable pageable, String searchQuery);
 	Album findById(Long id);
 	List<Song> getSongs(Long albumId);
 	int delete(Long id);
