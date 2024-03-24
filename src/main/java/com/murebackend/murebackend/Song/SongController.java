@@ -74,9 +74,8 @@ public class SongController {
         Song song = songRepository.getSong(id);
 
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "images/song");
-        String fileNameFull = fileCode + "_" + fileName;
-        String imagePath = "/images/song/" + fileNameFull;
+        String fileFullName = FileUploadUtil.saveFile(fileName, multipartFile, "images/song");
+        String imagePath = "/images/song/" + fileFullName;
 
         log.info(imagePath);
         song.setImagePath(imagePath);

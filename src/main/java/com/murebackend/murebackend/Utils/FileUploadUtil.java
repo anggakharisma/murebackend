@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,19 +18,25 @@ public class FileUploadUtil {
             throws IOException {
         Path uploadPath = Paths.get("src/main/resources/public/" + path);
 
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy_mm_dd_");
+
+        String formattedDate = currentDateTime.format(dateFormat);
+
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
 
-        String fileCode = RandomStringUtils.randomAlphanumeric(8);
 
+        String fileCode = RandomStringUtils.randomAlphanumeric(8);
+        String fileFullName = formattedDate + fileCode + "_" + fileName;
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            Path filePath = uploadPath.resolve(fileCode + "_" + fileName);
+            Path filePath = uploadPath.resolve(dateFormat + fileCode + "_" + fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
             throw new IOException("Could not save file: " + fileName, ioe);
         }
 
-        return fileCode;
+        return fileFullName;
     }
 }

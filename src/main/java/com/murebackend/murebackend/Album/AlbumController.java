@@ -114,10 +114,9 @@ public class AlbumController {
 	public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile multipartFile)
 			throws IOException {
 		String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-		String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "images/song");
-		String fileNameFull = fileCode + "-" + fileName;
+		String fileFullName = FileUploadUtil.saveFile(fileName, multipartFile, "images/song");
 		Map<String, Object> response = new HashMap<>();
-		response.put("path", "/images/albums/" + fileNameFull);
+		response.put("path", "/images/albums/" + fileFullName);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
