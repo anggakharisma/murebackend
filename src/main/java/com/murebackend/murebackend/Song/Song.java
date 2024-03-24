@@ -16,17 +16,12 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class Song extends CommonProperties {
-    @NonNull
-    @NotBlank(message = "title is required")
-    private String title;
-    @NotNull
-    private Integer year;
+	@NonNull
+	@NotBlank(message = "title is required")
+	private String title;
+	@NotNull
+	private Integer year;
 
-    private String imagePath;
-    private String audioPath;
-
-    @NotNull
-    private Integer artistId;
-    @NotNull
-    private Integer albumId;
+	private String imagePath;
+	private String audioPath;
 }

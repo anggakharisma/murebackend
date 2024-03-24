@@ -2,6 +2,8 @@ package com.murebackend.murebackend.Album;
 
 import java.util.List;
 
+import com.murebackend.murebackend.Song.Song;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -9,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import com.murebackend.murebackend.Song.Song;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,5 +82,4 @@ public class JdbcAlbumRepository implements AlbumRepository {
 		return jdbcTemplate.update("INSERT INTO album_song (album_id, song_id) VALUES (?, ?)",
 				albumId, songId);
 	}
-
 }

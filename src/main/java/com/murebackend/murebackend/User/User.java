@@ -25,8 +25,10 @@ public class User extends CommonProperties {
 	@NotBlank(message = "name is required")
 	private String name;
 
+	private String username;
+
 	@NonNull
-	@Email(message="Please provide a valid email address")
+	@Email(message="Please provide a valid email address ")
 	@Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
 	@NotBlank(message = "email is required")
 	private String email;

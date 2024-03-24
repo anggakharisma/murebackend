@@ -7,13 +7,17 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 
+import com.murebackend.murebackend.Utils.FileUploadUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.murebackend.murebackend.Utils.FileUploadUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,10 +38,10 @@ public class SongController {
     SongRepository songRepository;
 
     @GetMapping("/")
-    public ResponseEntity<?> getSongs(Pageable pageable) {
+    public ResponseEntity<?> getSongs(Pageable pageable, PagedResourcesAssembler<Song> assembler) {
         try {
             Page<Song> songsCollections = songRepository.findSong("", pageable);
-            return new ResponseEntity<>(songsCollections, HttpStatus.OK);
+            return new ResponseEntity<>(assembler.toModel(songsCollections), HttpStatus.OK);
         } catch (Exception e) {
             Map<String, Object> errResponse = new HashMap<>();
             errResponse.put("error", e.getMessage());
@@ -48,41 +50,62 @@ public class SongController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> addSong(@Valid @RequestBody Song song) {
+    public ResponseEntity<?> save(@Valid @RequestBody SongRequest songRequest, Errors errors) {
         try {
             Map<String, Object> response = new HashMap<>();
-            songRepository.save(song);
+            Long songId = songRepository.save(songRequest);
+            songRepository.saveSongArtist(songId, songRequest.getArtistId());
 
-            response.put("message", song.getTitle() + " added");
+            response.put("message", songRequest.getTitle() + " added");
 
             return new ResponseEntity<>(response, HttpStatus.CREATED);
-
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("message", e.getMessage());
+            errorResponse.put("message", e.getCause());
 
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping("/image")
-    public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile multipartFile)
+    @PostMapping("{id}/image")
+    public ResponseEntity<Map<String, Object>> uploadImage(@PathVariable("id") Long id,
+            @RequestParam("file") MultipartFile multipartFile)
             throws IOException {
+        Song song = songRepository.getSong(id);
+
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "images/song");
-        String fileNameFull = fileCode + "-" + fileName;
+        String fileNameFull = fileCode + "_" + fileName;
+        String imagePath = "/images/song/" + fileNameFull;
+
+        log.info(imagePath);
+        song.setImagePath(imagePath);
+        songRepository.updateImage(song);
+
         Map<String, Object> response = new HashMap<>();
-        response.put("path", "/images/song/" + fileNameFull);
+        response.put("path", imagePath);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/audio-file")
-    public ResponseEntity<?> uploadAudio(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    @PostMapping("{id}/audio-file")
+    public ResponseEntity<?> uploadAudio(@PathVariable("id") Long id, @RequestParam("file") MultipartFile multipartFile)
+            throws IOException {
+
+        Song song = songRepository.getSong(id);
+        songRepository.updateSong(song);
+        Process p = Runtime.getRuntime().exec(new String[] { "bash", "ls", "-la" });
+        log.info(p.info().toString());
+
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+
+        log.info(multipartFile.getOriginalFilename());
+
         String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "song/");
-        String fileNameFull = fileCode + "-" + fileName;
+        String fileNameFull = fileCode + "_" + fileName;
+
         Map<String, Object> response = new HashMap<>();
         response.put("path", "/song/" + fileNameFull);
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
