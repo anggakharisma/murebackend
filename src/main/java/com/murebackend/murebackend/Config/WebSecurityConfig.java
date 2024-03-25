@@ -41,8 +41,10 @@ public class WebSecurityConfig {
 				.authorizeRequests()
 				.antMatchers("/", "/api/auth/", "/api/users/register/").permitAll()
 				.antMatchers("/images/**").permitAll()
+				.antMatchers("/songs/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/artists/", "/api/albums/**/", "/api/albums/").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/songs/**/").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/songs/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/roles/").permitAll()
 				.anyRequest().authenticated()
 				.and().exceptionHandling().authenticationEntryPoint((request, response, authException) -> {

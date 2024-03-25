@@ -37,7 +37,7 @@ public class SongController {
     @Autowired
     SongRepository songRepository;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> getSongs(Pageable pageable, PagedResourcesAssembler<Song> assembler) {
         try {
             Page<Song> songsCollections = songRepository.findSong("", pageable);
@@ -49,7 +49,7 @@ public class SongController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> save(@Valid @RequestBody SongRequest songRequest, Errors errors) {
         try {
             Map<String, Object> response = new HashMap<>();

@@ -39,7 +39,7 @@ public class AlbumController {
 	@Autowired
 	AlbumRepository albumRepository;
 
-	@GetMapping("/")
+	@GetMapping("")
 	public ResponseEntity<?> getAlbums(PagedResourcesAssembler<Album> assembler, Pageable pageable,
 			@RequestParam("q") Optional<String> q) {
 		try {
@@ -51,6 +51,24 @@ public class AlbumController {
 			Map<String, Object> errorResponse = new HashMap<>();
 			errorResponse.put("message", "Something went wrong");
 			log.error("getAlbums: " + e.getMessage());
+
+			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("")
+	public ResponseEntity<?> addAlbum(@Valid @RequestBody Album album) {
+		try {
+			Map<String, Object> response = new HashMap<>();
+			albumRepository.save(album);
+
+			response.put("message", album.getTitle() + " added");
+
+			return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+		} catch (Exception e) {
+			Map<String, Object> errorResponse = new HashMap<>();
+			errorResponse.put("message", e.getMessage());
 
 			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -90,24 +108,6 @@ public class AlbumController {
 	public ResponseEntity<?> getSongs(@PathVariable("id") Long id) {
 		List<Song> songs = albumRepository.getSongs(id);
 		return new ResponseEntity<>(songs, HttpStatus.OK);
-	}
-
-	@PostMapping("/")
-	public ResponseEntity<?> addAlbum(@Valid @RequestBody Album album) {
-		try {
-			Map<String, Object> response = new HashMap<>();
-			albumRepository.save(album);
-
-			response.put("message", album.getTitle() + " added");
-
-			return new ResponseEntity<>(response, HttpStatus.CREATED);
-
-		} catch (Exception e) {
-			Map<String, Object> errorResponse = new HashMap<>();
-			errorResponse.put("message", e.getMessage());
-
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 	}
 
 	@PostMapping("/{id}/image")
