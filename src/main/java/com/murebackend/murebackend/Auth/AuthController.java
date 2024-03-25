@@ -26,7 +26,7 @@ import com.murebackend.murebackend.User.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth/")
 @Slf4j
 public class AuthController {
 
@@ -42,7 +42,7 @@ public class AuthController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@PostMapping("/auth")
+	@PostMapping("")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthRequest authRequest) {
 		try {
 			User user = userRepository.findByEmail(authRequest.getEmail());

@@ -19,7 +19,9 @@ public class Song extends CommonProperties {
 	@NonNull
 	@NotBlank(message = "title is required")
 	private String title;
-	@NotNull
+
+	@NonNull
+	@NotNull(message = "year is required")
 	private Integer year;
 
 	private String imagePath;

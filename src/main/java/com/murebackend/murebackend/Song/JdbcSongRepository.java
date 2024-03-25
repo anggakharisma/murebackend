@@ -78,7 +78,15 @@ public class JdbcSongRepository implements SongRepository {
 
 	@Override
 	public void updateSong(Song song) {
-		// !TODO: Auto-generated method stub
+		jdbcTemplate.update(connection -> {
+			PreparedStatement ps = connection.prepareStatement(
+					"UPDATE songs SET audio_path = ? WHERE id = ?");
+
+			ps.setString(1, song.getAudioPath());
+			ps.setFloat(2, song.getId());
+
+			return ps;
+		});
 	}
 
 	@Override

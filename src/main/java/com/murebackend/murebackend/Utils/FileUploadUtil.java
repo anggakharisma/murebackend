@@ -31,7 +31,8 @@ public class FileUploadUtil {
         String fileCode = RandomStringUtils.randomAlphanumeric(8);
         String fileFullName = formattedDate + fileCode + "_" + fileName;
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            Path filePath = uploadPath.resolve(dateFormat + fileCode + "_" + fileName);
+
+            Path filePath = uploadPath.resolve(formattedDate + fileCode + "_" + fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
             throw new IOException("Could not save file: " + fileName, ioe);

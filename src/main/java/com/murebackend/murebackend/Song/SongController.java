@@ -61,7 +61,7 @@ public class SongController {
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("message", e.getCause());
+            errorResponse.put("message", errors);
 
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -91,16 +91,20 @@ public class SongController {
             throws IOException {
 
         Song song = songRepository.getSong(id);
-        songRepository.updateSong(song);
-        Process p = Runtime.getRuntime().exec(new String[] { "bash", "ls", "-la" });
-        log.info(p.info().toString());
+        // ProcessBuilder pb = new ProcessBuilder(new String[]{ "bash", "-c", "ls /home/dev" });
+        // pb.redirectOutput(Redirect.INHERIT);
+        // pb.redirectError(Redirect.INHERIT);
+
+        // Process p = pb.start();
 
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
-        log.info(multipartFile.getOriginalFilename());
 
-        String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "song/");
+        String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "songs/");
         String fileNameFull = fileCode + "_" + fileName;
+        song.setAudioPath("song/" + fileNameFull);
+
+        songRepository.updateSong(song);
 
         Map<String, Object> response = new HashMap<>();
         response.put("path", "/song/" + fileNameFull);
