@@ -91,6 +91,8 @@ public class SongController {
             throws IOException {
 
         Song song = songRepository.getSong(id);
+        // !TODO: Run ffmpeg convert to HLS
+
         // ProcessBuilder pb = new ProcessBuilder(new String[]{ "bash", "-c", "ls /home/dev" });
         // pb.redirectOutput(Redirect.INHERIT);
         // pb.redirectError(Redirect.INHERIT);
@@ -102,12 +104,12 @@ public class SongController {
 
         String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "songs/");
         String fileNameFull = fileCode + "_" + fileName;
-        song.setAudioPath("song/" + fileNameFull);
+        song.setAudioPath("/songs/" + fileNameFull);
 
         songRepository.updateSong(song);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("path", "/song/" + fileNameFull);
+        response.put("path", "/songs/" + fileNameFull);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
