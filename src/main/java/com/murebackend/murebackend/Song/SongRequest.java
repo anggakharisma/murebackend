@@ -10,8 +10,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 class SongRequest extends Song {
-	@NotNull(message = "album id is required")
 	private Long albumId;	
-	@NotNull(message = "artist id is required")
+
 	private Long artistId;	
 }

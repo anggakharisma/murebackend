@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.murebackend.murebackend.Config.JwtTokenUtil;
 import com.murebackend.murebackend.Utils.FileUploadUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +37,9 @@ public class SongController {
     @Autowired
     SongRepository songRepository;
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
     @GetMapping("")
     public ResponseEntity<?> getSongs(Pageable pageable, PagedResourcesAssembler<Song> assembler) {
         try {
@@ -50,20 +53,26 @@ public class SongController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> save(@Valid @RequestBody SongRequest songRequest, Errors errors) {
+    public ResponseEntity<?> save(HttpServletRequest request, @Valid @RequestBody SongRequest songRequest) {
         try {
             Map<String, Object> response = new HashMap<>();
             Long songId = songRepository.save(songRequest);
-            songRepository.saveSongArtist(songId, songRequest.getArtistId());
+            final String requestTokenHeader = request.getHeader("Authorization");
+            String jwtToken = requestTokenHeader.substring(7);
+            String userId = jwtTokenUtil.getUserIdFromToken(jwtToken);
+            
+            log.info("USERID: " + userId);
+
+            songRepository.saveSongArtist(songId, Long.valueOf(userId));
 
             response.put("message", songRequest.getTitle() + " added");
 
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("message", errors);
+            errorResponse.put("message", "Something went wrong");
 
-            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -73,7 +82,8 @@ public class SongController {
             throws IOException {
         Song song = songRepository.getSong(id);
 
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        String fileName = org.springframework.util.StringUtils
+                .cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         String fileFullName = FileUploadUtil.saveFile(fileName, multipartFile, "images/song");
         String imagePath = "/images/song/" + fileFullName;
 
@@ -93,14 +103,15 @@ public class SongController {
         Song song = songRepository.getSong(id);
         // !TODO: Run ffmpeg convert to HLS
 
-        // ProcessBuilder pb = new ProcessBuilder(new String[]{ "bash", "-c", "ls /home/dev" });
+        // ProcessBuilder pb = new ProcessBuilder(new String[]{ "bash", "-c", "ls
+        // /home/dev" });
         // pb.redirectOutput(Redirect.INHERIT);
         // pb.redirectError(Redirect.INHERIT);
 
         // Process p = pb.start();
 
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-
+        String fileName = org.springframework.util.StringUtils
+                .cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
         String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "songs/");
         String fileNameFull = fileCode + "_" + fileName;

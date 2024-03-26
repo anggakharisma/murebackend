@@ -41,7 +41,6 @@ public class JdbcSongRepository implements SongRepository {
 		}, keyHolder);
 
 		return keyHolder.getKey().longValue();
-
 	}
 
 	@Override
@@ -64,11 +63,7 @@ public class JdbcSongRepository implements SongRepository {
 
 	@Override
 	public void saveSongArtist(Long songId, Long artistId) {
-		log.info("{} {}", artistId, songId);
-		// jdbcTemplate.update(
-		// "INSERT INTO album_song (album_id, song_id, created_at) VALUES (?, ?,
-		// NOW())",
-		// songId, artistId);
+		jdbcTemplate.update("INSERT INTO artists_songs (artist_id, song_id, is_main) VALUES (?, ?, false)", artistId, songId);
 	}
 
 	@Override

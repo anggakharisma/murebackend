@@ -1,4 +1,5 @@
 package com.murebackend.murebackend.Config;
+
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -6,16 +7,18 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import com.murebackend.murebackend.User.User;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import com.murebackend.murebackend.User.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class JwtTokenUtil implements Serializable {
   private static final long serialVersionUID = -2550185165626007488L;
 
@@ -23,9 +26,8 @@ public class JwtTokenUtil implements Serializable {
 
   private final SecretKey key;
 
-
   public JwtTokenUtil(@Value("${jwtSecret}") String secretKey) {
-      key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+    key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
   }
 
   public String generateAccessToken(User user) {
@@ -33,6 +35,7 @@ public class JwtTokenUtil implements Serializable {
     return Jwts.builder()
         .setSubject(user.getEmail())
         .setIssuer("murebackend")
+        .claim("userId", user.getId())
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
         .signWith(key)
@@ -43,11 +46,16 @@ public class JwtTokenUtil implements Serializable {
     return getClaimFromToken(token, Claims::getSubject);
   }
 
+  public String getUserIdFromToken(String token) {
+    Claims claims = getAllClaimsFromToken(token);
+    return claims.get("userId").toString();
+  }
+
   public boolean verifyToken(String token) {
     try {
       Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
       return true;
-    } catch(Exception e) {
+    } catch (Exception e) {
       return false;
     }
   }
@@ -64,7 +72,7 @@ public class JwtTokenUtil implements Serializable {
   public Date getExpirationDateFromToken(String token) {
     return getClaimFromToken(token, Claims::getExpiration);
   }
-	
+
   private Boolean isTokenExpired(String token) {
     final Date expiration = getExpirationDateFromToken(token);
     return expiration.before(new Date());
