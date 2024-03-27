@@ -61,7 +61,7 @@ CREATE TABLE artists_songs (
 	is_main BOOLEAN NOT NULL
 );
 
-CREATE TABLE album_song (
+CREATE TABLE albums_songs (
 	album_id NUMERIC NOT NULL,
 	song_id NUMERIC NOT NULL
 );

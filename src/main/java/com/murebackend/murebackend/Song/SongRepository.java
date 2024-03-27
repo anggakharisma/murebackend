@@ -7,6 +7,7 @@ public interface SongRepository {
 	Long save(Song song);
 
 	void saveSongArtist(Long songId, Long artistId);
+	void saveSongAlbums(Long songId, Long albumId);
 
 	void updateSong(Song song);
 

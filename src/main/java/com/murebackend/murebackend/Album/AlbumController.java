@@ -13,6 +13,7 @@ import com.murebackend.murebackend.Song.Song;
 import com.murebackend.murebackend.Utils.FileUploadUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -77,7 +78,11 @@ public class AlbumController {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getAlbum(@PathVariable("id") Long id) {
 		Album album = albumRepository.findById(id);
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("data", album);
 		return new ResponseEntity<>(album, HttpStatus.OK);
+
 	}
 
 	@PatchMapping("/{id}")

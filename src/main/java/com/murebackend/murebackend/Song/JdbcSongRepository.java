@@ -63,7 +63,8 @@ public class JdbcSongRepository implements SongRepository {
 
 	@Override
 	public void saveSongArtist(Long songId, Long artistId) {
-		jdbcTemplate.update("INSERT INTO artists_songs (artist_id, song_id, is_main) VALUES (?, ?, false)", artistId, songId);
+		jdbcTemplate.update("INSERT INTO artists_songs (artist_id, song_id, is_main) VALUES (?, ?, false)", artistId,
+				songId);
 	}
 
 	@Override
@@ -73,15 +74,6 @@ public class JdbcSongRepository implements SongRepository {
 
 	@Override
 	public void updateSong(Song song) {
-		jdbcTemplate.update(connection -> {
-			PreparedStatement ps = connection.prepareStatement(
-					"UPDATE songs SET audio_path = ? WHERE id = ?");
-
-			ps.setString(1, song.getAudioPath());
-			ps.setFloat(2, song.getId());
-
-			return ps;
-		});
 	}
 
 	@Override
@@ -99,6 +91,20 @@ public class JdbcSongRepository implements SongRepository {
 
 	@Override
 	public void updateAudioFile(Song song) {
-		// !TODO: Auto-generated method stub
+		jdbcTemplate.update(connection -> {
+			PreparedStatement ps = connection.prepareStatement(
+					"UPDATE songs SET audio_path = ? WHERE id = ?");
+
+			ps.setString(1, song.getAudioPath());
+			ps.setFloat(2, song.getId());
+
+			return ps;
+		});
+	}
+
+	@Override
+	public void saveSongAlbums(Long songId, Long albumId) {
+		jdbcTemplate.update("INSERT INTO albums_songs (album_id, song_id) VALUES (?, ?)", albumId,
+				songId);
 	}
 }

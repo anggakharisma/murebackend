@@ -8,6 +8,8 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.murebackend.murebackend.Album.Album;
+import com.murebackend.murebackend.Album.AlbumRepository;
 import com.murebackend.murebackend.Config.JwtTokenUtil;
 import com.murebackend.murebackend.Utils.FileUploadUtil;
 
@@ -38,6 +40,9 @@ public class SongController {
     SongRepository songRepository;
 
     @Autowired
+    AlbumRepository albumRepository;
+
+    @Autowired
     JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("")
@@ -64,6 +69,9 @@ public class SongController {
             log.info("USERID: " + userId);
 
             songRepository.saveSongArtist(songId, Long.valueOf(userId));
+
+            Album album = albumRepository.findById(songRequest.getAlbumId());
+            songRepository.saveSongAlbums(songId, songRequest.getAlbumId());
 
             response.put("message", songRequest.getTitle() + " added");
 
@@ -117,7 +125,7 @@ public class SongController {
         String fileNameFull = fileCode + "_" + fileName;
         song.setAudioPath("/songs/" + fileNameFull);
 
-        songRepository.updateSong(song);
+        songRepository.updateAudioFile(song);
 
         Map<String, Object> response = new HashMap<>();
         response.put("path", "/songs/" + fileNameFull);

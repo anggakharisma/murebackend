@@ -54,6 +54,7 @@ public class JdbcAlbumRepository implements AlbumRepository {
 				"SELECT * FROM albums WHERE title ILIKE concat('%', ?, '%') LIMIT ? OFFSET ?",
 				BeanPropertyRowMapper.newInstance(Album.class),
 				new Object[] { searchQuery, pageable.getPageSize(), pageable.getOffset() });
+
 		return new PageImpl<>(albums, pageable, total);
 	}
 
