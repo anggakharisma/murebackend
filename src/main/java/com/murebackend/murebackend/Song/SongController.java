@@ -15,6 +15,7 @@ import com.murebackend.murebackend.Utils.FileUploadUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -65,23 +66,28 @@ public class SongController {
             final String requestTokenHeader = request.getHeader("Authorization");
             String jwtToken = requestTokenHeader.substring(7);
             String userId = jwtTokenUtil.getUserIdFromToken(jwtToken);
-            
+
             log.info("USERID: " + userId);
 
             songRepository.saveSongArtist(songId, Long.valueOf(userId));
 
             Album album = albumRepository.findById(songRequest.getAlbumId());
-            if (album == null) throw new Exception("album not found");
-
+            if (album == null)
+                throw new IncorrectResultSizeDataAccessException("album not found", 0);
             songRepository.saveSongAlbums(songId, songRequest.getAlbumId());
 
             response.put("message", songRequest.getTitle() + " added");
 
             return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (IncorrectResultSizeDataAccessException e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Album not found");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("message", "Something went wrong");
-            errorResponse.put("error",e.getMessage());
+            errorResponse.put("error", e.getMessage());
 
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }

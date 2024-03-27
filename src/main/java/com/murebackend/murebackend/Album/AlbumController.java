@@ -13,7 +13,6 @@ import com.murebackend.murebackend.Song.Song;
 import com.murebackend.murebackend.Utils.FileUploadUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -77,11 +76,22 @@ public class AlbumController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getAlbum(@PathVariable("id") Long id) {
-		Album album = albumRepository.findById(id);
+		try {
 
-		Map<String, Object> response = new HashMap<>();
-		response.put("data", album);
-		return new ResponseEntity<>(album, HttpStatus.OK);
+			Album album = albumRepository.findById(id);
+			if (album == null)
+				throw new Exception("Album not found");
+
+			Map<String, Object> response = new HashMap<>();
+			response.put("data", album);
+			return new ResponseEntity<>(album, HttpStatus.OK);
+
+		} catch (Exception e) {
+			Map<String, Object> errorResponse = new HashMap<>();
+			errorResponse.put("message", e.getMessage());
+
+			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 	}
 
@@ -89,6 +99,8 @@ public class AlbumController {
 	public ResponseEntity<?> updateSong(@Valid @RequestBody Album albumReqest, @PathVariable("id") Long id) {
 		try {
 			Album album = albumRepository.findById(id);
+			if (album == null)
+				throw new IncorrectResultSizeDataAccessException("album not found", 0);
 			albumRepository.update(albumReqest, id);
 
 			Map<String, Object> response = new HashMap<>();
