@@ -81,3 +81,7 @@ CREATE TABLE song_stats (
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
 )
+
+INSERT INTO roles (name, created_at) VALUES ('ROLE_USER', NOW());
+INSERT INTO roles (name, created_at) VALUES ('ROLE_ADMIN', NOW());
+INSERT INTO roles (name, created_at) VALUES ('ROLE_SUPERADMIN', NOW());
