@@ -71,6 +71,8 @@ public class SongController {
             songRepository.saveSongArtist(songId, Long.valueOf(userId));
 
             Album album = albumRepository.findById(songRequest.getAlbumId());
+            if (album == null) throw new Exception("album not found");
+
             songRepository.saveSongAlbums(songId, songRequest.getAlbumId());
 
             response.put("message", songRequest.getTitle() + " added");
@@ -79,8 +81,9 @@ public class SongController {
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("message", "Something went wrong");
+            errorResponse.put("error",e.getMessage());
 
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import com.murebackend.murebackend.Song.Song;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -60,8 +61,12 @@ public class JdbcAlbumRepository implements AlbumRepository {
 
 	@Override
 	public Album findById(Long id) {
-		return jdbcTemplate.queryForObject("SELECT * FROM albums WHERE id = ?",
-				BeanPropertyRowMapper.newInstance(Album.class), id);
+		try {
+			return jdbcTemplate.queryForObject("SELECT * FROM albums WHERE id = ?",
+					BeanPropertyRowMapper.newInstance(Album.class), id);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 	@Override
