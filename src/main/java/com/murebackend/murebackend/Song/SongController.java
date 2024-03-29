@@ -1,10 +1,14 @@
 package com.murebackend.murebackend.Song;
 
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -45,6 +49,9 @@ public class SongController {
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    ServletContext context;
 
     @GetMapping("")
     public ResponseEntity<?> getSongs(Pageable pageable, PagedResourcesAssembler<Song> assembler) {
@@ -118,22 +125,27 @@ public class SongController {
             throws IOException {
 
         Song song = songRepository.getSong(id);
-        // !TODO: Run ffmpeg convert to HLS
 
-        // ProcessBuilder pb = new ProcessBuilder(new String[]{ "bash", "-c", "ls
-        // /home/dev" });
-        // pb.redirectOutput(Redirect.INHERIT);
-        // pb.redirectError(Redirect.INHERIT);
-
-        // Process p = pb.start();
+        Path uploadPath = Paths.get("src/main/resources/public/").resolve("songs");
 
         String fileName = org.springframework.util.StringUtils
                 .cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
-        String fileCode = FileUploadUtil.saveFile(fileName, multipartFile, "songs/");
-        String fileNameFull = fileCode + "_" + fileName;
+        String fileNameFull = FileUploadUtil.saveFile(fileName, multipartFile, "songs/");
         song.setAudioPath("/songs/" + fileNameFull);
 
+        String fullPath = uploadPath.toString() + "/" + fileNameFull;
+        String[] ffmCom = new String[] { "bash", "-c",
+                "ffmpeg -i " + fullPath
+                        + " -vn -ac 2 -acodec aac -f segment -segment_format mpegts -segment_time 10 -segment_list "
+                        + fullPath + ".m3u8 " + fullPath + "_segment%05d.ts" };
+
+        ProcessBuilder pb = new ProcessBuilder(ffmCom);
+
+        pb.redirectOutput(Redirect.INHERIT);
+        pb.redirectError(Redirect.INHERIT);
+
+        pb.start();
         songRepository.updateAudioFile(song);
 
         Map<String, Object> response = new HashMap<>();
