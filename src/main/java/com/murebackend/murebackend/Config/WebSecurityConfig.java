@@ -16,22 +16,29 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig implements WebMvcConfigurer {
 	private final UserDetailsService jwtUserDetailsService;
 
 	private final JwtRequestFilter jwtRequestFilter;
+
 	@Bean
 	public PasswordEncoder encoder() {
-    return new BCryptPasswordEncoder();
-  }
+		return new BCryptPasswordEncoder();
+	}
 
-  	public WebSecurityConfig(UserDetailsService jwtUserDetailsService, JwtRequestFilter jwtRequestFilter) {
+	public WebSecurityConfig(UserDetailsService jwtUserDetailsService, JwtRequestFilter jwtRequestFilter) {
 		this.jwtRequestFilter = jwtRequestFilter;
 		this.jwtUserDetailsService = jwtUserDetailsService;
 
+	}
+
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**").allowedMethods("*");
 	}
 
 	@Bean
@@ -42,13 +49,15 @@ public class WebSecurityConfig {
 				.antMatchers("/", "/api/auth/", "/api/users/register/").permitAll()
 				.antMatchers("/images/**").permitAll()
 				.antMatchers("/songs/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/artists/", "/api/albums/**/", "/api/albums/").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/artists/", "/api/albums/**/", "/api/albums/")
+				.permitAll()
 				.antMatchers(HttpMethod.GET, "/api/songs/**/").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/songs/**").permitAll()
 
 				.antMatchers(HttpMethod.GET, "/api/roles/").permitAll()
 				.anyRequest().authenticated()
-				.and().exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
+				.and().exceptionHandling()
+				.authenticationEntryPoint((request, response, authException) -> {
 					Map<String, Object> responseMap = new HashMap<>();
 					ObjectMapper mapper = new ObjectMapper();
 					response.setStatus(401);

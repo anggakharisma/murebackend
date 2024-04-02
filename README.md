@@ -28,3 +28,9 @@ and on another terminal
 ./gradlew bootRun
 
 ```
+
+## Docker 
+```
+docker build -t murebackend .
+docker run -it --env DB_CONFIG='jdbc:postgresql://pg-local-13:5432/murebackend' --rm -p 8080:8080  --network docker-net murebackend:latest
+```
