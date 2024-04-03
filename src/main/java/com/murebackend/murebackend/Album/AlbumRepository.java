@@ -16,4 +16,5 @@ public interface AlbumRepository {
 	Album findById(Long id);
 	List<Song> getSongs(Long albumId);
 	int delete(Long id);
+	void updateImage(Album album);
 }

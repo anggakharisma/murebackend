@@ -1,5 +1,6 @@
 package com.murebackend.murebackend.Album;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 
 import com.murebackend.murebackend.Song.Song;
@@ -87,5 +88,18 @@ public class JdbcAlbumRepository implements AlbumRepository {
 	public int addSong(Long albumId, Long songId) {
 		return jdbcTemplate.update("INSERT INTO album_song (album_id, song_id) VALUES (?, ?)",
 				albumId, songId);
+	}
+
+	@Override
+	public void updateImage(Album album) {
+		jdbcTemplate.update(connection -> {
+			PreparedStatement ps = connection.prepareStatement(
+					"UPDATE albums SET image_path = ? WHERE id = ?");
+
+			ps.setString(1, album.getImagePath());
+			ps.setFloat(2, album.getId());
+
+			return ps;
+		});
 	}
 }

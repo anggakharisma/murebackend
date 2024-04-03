@@ -128,12 +128,22 @@ public class AlbumController {
 	}
 
 	@PostMapping("/{id}/image")
-	public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile multipartFile)
+	public ResponseEntity<Map<String, Object>> uploadImage(@PathVariable("id") Long id,
+			@RequestParam("file") MultipartFile multipartFile)
 			throws IOException {
-		String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-		String fileFullName = FileUploadUtil.saveFile(fileName, multipartFile, "images/song");
+		Album album = albumRepository.findById(id);
+
+		String fileName = org.springframework.util.StringUtils
+				.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+
+		String fileFullName = FileUploadUtil.saveFile(fileName, multipartFile, "images/albums");
+		String imagePath = "/images/albums/" + fileFullName;
+
+		album.setImagePath(imagePath);
+		albumRepository.updateImage(album);
+
 		Map<String, Object> response = new HashMap<>();
-		response.put("path", "/images/albums/" + fileFullName);
+		response.put("path", imagePath);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
