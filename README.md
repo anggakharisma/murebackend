@@ -15,11 +15,11 @@ This project is built using Java and Spring Boot framework to provide a robust a
 
 Before running this project locally, ensure you have the following installed:
 
-- Java Development Kit (JDK) 17 or later
+- Java Development Kit (JDK) 18 or later
 - PostgreSQL
 
 ## Development
-use inteliJ or via terminal run these commands
+use inteliJ or via terminal you can run these commands:
 ```
 ./gradlew bootJar --continuous
 
@@ -30,7 +30,18 @@ and on another terminal
 ```
 
 ## Docker 
+
+#### Development
 ```
-docker build -t murebackend .
-docker run -it --env DB_CONFIG='jdbc:postgresql://pg-local-13:5432/murebackend' --rm -p 8080:8080  --network docker-net murebackend:latest
+docker run -dit --name mure-api --env DB_CONFIG='jdbc:postgresql://pg-local:5432/mure' -w /app -v $(pwd):/app -p 3241:8080 -u $(id -u):$(id -g) --network docker-net amazoncorrett
+o:18
+
+./gradlew bootJar --continuous
+
+open another terminal
+
+./gradlew bootRun
 ```
+
+
+#### Production

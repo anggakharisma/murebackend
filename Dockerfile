@@ -1,10 +1,8 @@
 # Use an official OpenJDK runtime as the base image
-FROM openjdk:17-jdk-slim
+FROM amazoncorretto:18-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
-RUN apt update
-RUN apt install vim -y
 
 COPY . .
 RUN ./gradlew bootJar --no-daemon

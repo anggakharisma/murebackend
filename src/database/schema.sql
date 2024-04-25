@@ -68,6 +68,7 @@ CREATE TABLE albums_songs (
 
 CREATE TABLE playlist (
 	id SERIAL PRIMARY KEY,
+	user_id NUMERIC NOT NULL,
 	title VARCHAR(255) NOT NULL,
 	is_public BOOLEAN NOT NULL,
 	created_at TIMESTAMP,
@@ -77,10 +78,10 @@ CREATE TABLE playlist (
 CREATE TABLE song_stats (
 	id SERIAL PRIMARY KEY,
 	song_id NUMERIC NOT NULL,
-	listener NUMERIC NOT NULL,
+	listener_count NUMERIC NOT NULL,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP
-)
+);
 
 INSERT INTO roles (name, created_at) VALUES ('ROLE_USER', NOW());
 INSERT INTO roles (name, created_at) VALUES ('ROLE_ADMIN', NOW());
